@@ -1,0 +1,16 @@
+(require 'haskell-mode)
+(add-to-list 'ac-modes 'haskell-mode)
+(setq haskell-font-lock-symbols (quote unicode))
+
+(defun haskell-mode-hook ()
+  (turn-on-haskell-doc-mode)
+  (turn-on-haskell-indent)
+  (turn-on-eldoc-mode)
+  (turn-on-haskell-indentation)
+;  (local-set-key "\C-cl" 'hs-lint)
+  (local-set-key (kbd "M-m h") 'haskell-hoogle)
+  (local-set-key (kbd "M-m M-h") 'haskell-hayoo)
+;;  (turn-on-haskell-simple-indent)
+  (setq haskell-font-lock-symbols t))
+
+(add-hook 'haskell-mode-hook 'haskell-mode-hook)

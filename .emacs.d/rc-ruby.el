@@ -1,0 +1,11 @@
+;; (push "~/.emacs.d/elisp/ruby-mode" load-path)
+;; (when (require 'ruby-mode nil t))
+
+(defun my-ruby-mode-hook ()
+	(defun ruby-return()
+		(interactive)
+		(open-line 1)
+		(forward-char)
+		(indent-for-tab-command))
+	(local-set-key (kbd "<return>") 'ruby-return))
+(add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
