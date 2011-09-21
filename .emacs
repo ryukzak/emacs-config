@@ -23,7 +23,7 @@
 
 (el-get 'sync '(magit psvn org-mode haskell-mode auto-complete paredit
                       erlware-mode scala-mode distel slime
-                      clojure-mode color-theme
+                      clojure-mode color-theme ergoemacs-keybindings
                       yasnippet ahg escreen undo-tree
                       wikipedia-mode mediawiki dired-sync))
 
