@@ -1,5 +1,0 @@
-#name : handle_call(...) -> ... {reply, Reply, State};
-# --
-handle_call($0, _From, State) ->
-    Reply = ok,
-    {reply, Reply, State};

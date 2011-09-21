@@ -1,4 +1,0 @@
-#name : parameter ... = ...;
-# --
-parameter ${1:NAME} = ${2:0};
-$0

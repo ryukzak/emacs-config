@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -Rf .emacs.d
+
 cp ~/.emacs .
 mkdir -p .emacs.d
 cp ~/.emacs.d/rc-*.el .emacs.d/
