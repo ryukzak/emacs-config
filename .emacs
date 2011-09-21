@@ -13,27 +13,19 @@
 
 (setq el-get-verbose)
 
-(setq el-get-sources '(;; magit psvn org-mode haskell-mode auto-complete paredit
-                       ;;       erlware-mode scala-mode distel slime
-                       ;;       clojure-mode color-theme ; dired-sync
-                       ;;       yasnippet ahg escreen undo-tree
-                       ;;       wikipedia-mode mediawiki
-                             (:name ergoemacs-keybindings
-                                    :type git-svn
-                                    :url "http://ergoemacs.googlecode.com/svn/trunk/ergoemacs/ergoemacs-keybindings")
-                             (:name dired-sync
-                                    :type git
-                                    :url "https://github.com/ryukzak/dired-sync.git"
-                                    :features dired-sync)
-                             ))
+(setq el-get-sources '((:name ergoemacs-keybindings
+                              :type git-svn
+                              :url "http://ergoemacs.googlecode.com/svn/trunk/ergoemacs/ergoemacs-keybindings")
+                       (:name dired-sync
+                              :type git
+                              :url "https://github.com/ryukzak/dired-sync.git"
+                              :features dired-sync)))
 
 (el-get 'sync '(magit psvn org-mode haskell-mode auto-complete paredit
-                             erlware-mode scala-mode distel slime
-                             clojure-mode color-theme ; dired-sync
-                             yasnippet ahg escreen undo-tree
-                             wikipedia-mode mediawiki
-                             dired-sync                            
-                             ))
+                      erlware-mode scala-mode distel slime
+                      clojure-mode color-theme
+                      yasnippet ahg escreen undo-tree
+                      wikipedia-mode mediawiki dired-sync))
 
 (push "~/.emacs.d" load-path)
 (push "~/.emacs.d/elisp" load-path)
@@ -72,7 +64,7 @@
 (load "~/.emacs.d/rc-speedbar.el")
 (load "~/.emacs.d/rc-haskell.el")
 
-(setq default-input-method "russian-computer")
+(setq default-input-method "russian-computer") ;; Not work with dvorak
 
 (put 'downcase-region 'disabled nil)
 
