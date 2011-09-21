@@ -1,6 +1,6 @@
 (require 'escreen)
 
-(when (require 'workspace)
+(when (require 'workspaces)
   (workspace-create)
   (global-set-key (kbd "M-m m") 'workspace-controller)
   (define-key workspace-controller-map (kbd "M-n") 'workspace-next-workspace)
