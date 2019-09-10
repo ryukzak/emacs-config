@@ -42,7 +42,12 @@ values."
      emacs-lisp
      git
      (markdown :variables markdown-live-preview-engine 'vmd)
-     haskell
+     (haskell :variables
+              haskell-indentation-layout-offset 4
+              haskell-indentation-left-offset 4
+              haskell-indentation-starter-offset 4
+              haskell-indentation-where-post-offset 4
+              haskell-indentation-where-pre-offset 4)
      (shell :variables
             shell-default-position 'bottom
             shell-default-height 20)
@@ -350,7 +355,13 @@ you should place your code here."
 
   (add-hook 'focus-out-hook 'save-all)
 
-  (add-hook 'markdown-mode-hook (lambda () (visual-line-mode 1)))
+  (defun my-markdown-mode-hook ()
+    (visual-line-mode 1))
+  (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
+
+  (defun my-haskell-mode-hook ()
+    (toggle-truncate-lines nil))
+  (add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
 
   (global-set-key (kbd "s-f") 'counsel-projectile-find-file-dwim)
   (global-set-key (kbd "s-F") 'counsel-projectile-switch-project)
