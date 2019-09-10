@@ -18,4 +18,10 @@ ln -s Documents/emacs-conf/.spacemacs
 ### Markdown support
 ```
 brew install markdown
+npm install -g vmd
+```
+
+### Haskell support
+```
+stack install apply-refact hlint stylish-haskell hasktags hoogle
 ```

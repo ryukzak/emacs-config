@@ -47,7 +47,8 @@ values."
               haskell-indentation-left-offset 4
               haskell-indentation-starter-offset 4
               haskell-indentation-where-post-offset 4
-              haskell-indentation-where-pre-offset 4)
+              haskell-indentation-where-pre-offset 4
+              haskell-tags-on-save t)
      (shell :variables
             shell-default-position 'bottom
             shell-default-height 20)
@@ -64,7 +65,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(ivy-xref)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -366,6 +367,13 @@ you should place your code here."
   (global-set-key (kbd "s-f") 'counsel-projectile-find-file-dwim)
   (global-set-key (kbd "s-F") 'counsel-projectile-switch-project)
   (global-set-key (kbd "s-r") 'counsel-recentf)
+
+  (use-package ivy-xref
+    :ensure t
+    :init (if (< emacs-major-version 27)
+              (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
+            (setq xref-show-definitions-function #'ivy-xref-show-defs)))
+
   )
 
 
@@ -384,7 +392,7 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (vmd-mode xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup intero flycheck hlint-refactor hindent haskell-snippets go-guru go-eldoc gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit transient git-commit with-editor company-statistics company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company cmm-mode auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
+    (ivy-xref vmd-mode xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup intero flycheck hlint-refactor hindent haskell-snippets go-guru go-eldoc gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit transient git-commit with-editor company-statistics company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company cmm-mode auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
