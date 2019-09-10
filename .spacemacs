@@ -351,6 +351,10 @@ you should place your code here."
   (add-hook 'focus-out-hook 'save-all)
 
   (add-hook 'markdown-mode-hook (lambda () (visual-line-mode 1)))
+
+  (global-set-key (kbd "s-f") 'counsel-projectile-find-file-dwim)
+  (global-set-key (kbd "s-F") 'counsel-projectile-switch-project)
+  (global-set-key (kbd "s-r") 'counsel-recentf)
   )
 
 
