@@ -395,6 +395,13 @@ you should place your code here."
   (global-set-key (kbd "s-B") 'save-all-and-compile-by)
 
 
+  (defun kill-current-buffer ()
+    (interactive)
+    (kill-buffer (buffer-name)))
+  (global-set-key (kbd "s-w") 'kill-current-buffer)
+
+  )
+
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
