@@ -25,3 +25,8 @@ npm install -g vmd
 ```
 stack install apply-refact hlint stylish-haskell hasktags hoogle
 ```
+
+### Utils
+```
+brew install the_silver_searcher
+```
