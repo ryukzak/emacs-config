@@ -383,6 +383,16 @@ you should place your code here."
   (global-set-key (kbd "s-g") 'dumb-jump-go)
   (global-set-key (kbd "s-G") 'dumb-jump-back)
 
+  (global-set-key (kbd "s-i") 'previous-line)
+  (global-set-key (kbd "s-k") 'next-line)
+  (global-set-key (kbd "s-j") 'backward-char)
+  (global-set-key (kbd "s-l") 'forward-char)
+  (global-set-key (kbd "s-u") 'backward-word)
+  (global-set-key (kbd "s-o") 'forward-word)
+
+  (global-set-key (kbd "s-J") 'mwim-beginning-of-line)
+  (global-set-key (kbd "s-L") 'mwim-end-of-line)
+
 
   (use-package ivy-xref
     :ensure t
