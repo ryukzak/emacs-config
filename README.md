@@ -26,6 +26,11 @@ npm install -g vmd
 stack install apply-refact hlint stylish-haskell hasktags hoogle
 ```
 
+### JS support
+```
+npm install --global tern prettier
+```
+
 ### Utils
 ```
 brew install the_silver_searcher
