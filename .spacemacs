@@ -73,7 +73,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(ivy-xref ws-butler dired-git-info diredfl prettier-js editorconfig idle-highlight-mode)
+   dotspacemacs-additional-packages '(ivy-xref ws-butler dired-git-info diredfl prettier-js editorconfig ag idle-highlight-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -393,6 +393,8 @@ you should place your code here."
   (global-set-key (kbd "s-J") 'mwim-beginning-of-line)
   (global-set-key (kbd "s-L") 'mwim-end-of-line)
 
+  (global-set-key (kbd "s-S") 'counsel-projectile-ag)
+  (global-set-key (kbd "s-s") 'swiper)
 
   (use-package ivy-xref
     :ensure t
@@ -489,20 +491,21 @@ you should place your code here."
    (quote
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(evil-want-Y-yank-to-eol nil)
- '(haskell-indentation-layout-offset 4 t)
- '(haskell-indentation-left-offset 4 t)
- '(haskell-indentation-starter-offset 8 t)
- '(haskell-indentation-where-post-offset 4 t)
- '(haskell-indentation-where-pre-offset 4 t)
- '(haskell-interactive-popup-errors nil t)
- '(haskell-notify-p t t)
- '(haskell-process-auto-import-loaded-modules t t)
- '(haskell-process-suggest-remove-import-lines t t)
- '(haskell-stylish-on-save t t)
- '(haskell-tags-on-save t t)
+ '(haskell-indentation-layout-offset 4)
+ '(haskell-indentation-left-offset 4)
+ '(haskell-indentation-starter-offset 8)
+ '(haskell-indentation-where-post-offset 4)
+ '(haskell-indentation-where-pre-offset 4)
+ '(haskell-interactive-popup-errors nil)
+ '(haskell-notify-p t)
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(haskell-stylish-on-save t)
+ '(haskell-tags-on-save t)
  '(package-selected-packages
    (quote
     (idle-highlight-mode editorconfig prettier-js yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode cython-mode company-anaconda anaconda-mode pythonic dired-git-info diredfl powershell flycheck-pos-tip pos-tip flycheck-haskell web-mode tagedit slim-mode scss-mode sass-mode pug-mode haml-mode emmet-mode company-web web-completion-data web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode lua-mode yaml-mode tide typescript-mode ivy-xref vmd-mode xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help unfill smeargle orgit mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup intero flycheck hlint-refactor hindent haskell-snippets go-guru go-eldoc gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit transient git-commit with-editor company-statistics company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company cmm-mode auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
+   
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
