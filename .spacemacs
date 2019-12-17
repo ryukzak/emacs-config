@@ -393,8 +393,17 @@ you should place your code here."
   (global-set-key (kbd "s-J") 'mwim-beginning-of-line)
   (global-set-key (kbd "s-L") 'mwim-end-of-line)
 
-  (global-set-key (kbd "s-S") 'counsel-projectile-ag)
   (global-set-key (kbd "s-s") 'swiper)
+  (global-set-key (kbd "C-s") 'counsel-projectile-ag)
+  (global-set-key (kbd "s-n") 'find-file)
+
+  (defun go-rename-safe-for-windows ()
+    (interactive)
+    (let ((windows-conf nil))
+      (window-configuration-to-register windows-conf)
+      (call-interactively 'go-rename)
+      (jump-to-register windows-conf)))
+  (global-set-key (kbd "s-r") 'go-rename-safe-for-windows)
 
   (use-package ivy-xref
     :ensure t
