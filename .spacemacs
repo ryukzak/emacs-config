@@ -380,15 +380,13 @@ you should place your code here."
   (global-set-key (kbd "s-F") 'counsel-projectile-switch-project)
   (global-set-key (kbd "s-r") 'counsel-recentf)
 
-  (global-set-key (kbd "s-g") 'dumb-jump-go)
-  (global-set-key (kbd "s-G") 'dumb-jump-back)
-
   (global-set-key (kbd "s-i") 'previous-line)
   (global-set-key (kbd "s-k") 'next-line)
   (global-set-key (kbd "s-j") 'backward-char)
   (global-set-key (kbd "s-l") 'forward-char)
   (global-set-key (kbd "s-u") 'backward-word)
   (global-set-key (kbd "s-o") 'forward-word)
+  (global-set-key (kbd "s-p") 'recenter)
 
   (global-set-key (kbd "s-J") 'mwim-beginning-of-line)
   (global-set-key (kbd "s-L") 'mwim-end-of-line)
@@ -403,7 +401,34 @@ you should place your code here."
       (window-configuration-to-register windows-conf)
       (call-interactively 'go-rename)
       (jump-to-register windows-conf)))
-  (global-set-key (kbd "s-r") 'go-rename-safe-for-windows)
+  (global-set-key (kbd "s-6") 'go-rename-safe-for-windows)
+
+  (defun my-workspace ()
+    (interactive)
+    (delete-other-windows (selected-window))
+    (neotree)
+    (winum-select-window-1)
+    (split-window-horizontally)
+    (winum-select-window-2)
+    (split-window-vertically)
+    (winum-select-window-3)
+    (switch-to-buffer "*compilation*")
+    (let ((w (selected-window)))
+      (window-resize w (- 15 (window-total-height w))))
+    (winum-select-window-1))
+  (global-set-key (kbd "<f12>") 'my-workspace)
+
+  ;; (defun goto-definition ()
+  ;;   (interactive)
+  ;;   (let ((xrefs (funcall (intern (format "xref-backend-%s" kind))
+  ;;                         (xref-find-backend)
+  ;;                         nil)))
+  ;;     (if xrefs
+  ;;         (call-interactively 'xref-find-definitions)
+  ;;       (call-interactively dumb-jump-go))))
+
+  (global-set-key (kbd "s-g") 'dumb-jump)
+  (global-set-key (kbd "s-G") 'dumb-jump-back)
 
   (use-package ivy-xref
     :ensure t
