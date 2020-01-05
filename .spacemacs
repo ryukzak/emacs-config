@@ -398,6 +398,7 @@ you should place your code here."
   (defun go-rename-safe-for-windows ()
     (interactive)
     (let ((windows-conf nil))
+      (save-buffer)
       (window-configuration-to-register windows-conf)
       (call-interactively 'go-rename)
       (jump-to-register windows-conf)))
@@ -414,7 +415,7 @@ you should place your code here."
     (winum-select-window-3)
     (switch-to-buffer "*compilation*")
     (let ((w (selected-window)))
-      (window-resize w (- 15 (window-total-height w))))
+      (window-resize w (- 24 (window-total-height w))))
     (winum-select-window-1))
   (global-set-key (kbd "<f12>") 'my-workspace)
 
@@ -427,7 +428,7 @@ you should place your code here."
   ;;         (call-interactively 'xref-find-definitions)
   ;;       (call-interactively dumb-jump-go))))
 
-  (global-set-key (kbd "s-g") 'dumb-jump)
+  (global-set-key (kbd "s-g") 'dumb-jump-go)
   (global-set-key (kbd "s-G") 'dumb-jump-back)
 
   (use-package ivy-xref
