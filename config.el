@@ -83,6 +83,7 @@
 (global-set-key (kbd "s-f") 'counsel-projectile-find-file)
 (global-set-key (kbd "s-F") 'counsel-projectile-switch-project)
 (global-set-key (kbd "s-r") 'counsel-recentf)
+(global-set-key (kbd "s-w") 'kill-this-buffer)
 
 (global-set-key (kbd "s-i") 'previous-line)
 (global-set-key (kbd "s-k") 'next-line)
