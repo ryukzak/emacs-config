@@ -51,6 +51,8 @@
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
+(package-initialize)
+
 ;; Hotkeys on russian layout
 (defun reverse-input-method (input-method)
   "Build the reverse mapping of single letters from INPUT-METHOD."
@@ -141,7 +143,10 @@
 ;; Haskell
 (defun rk-haskell-mode-hook ()
   (toggle-truncate-lines nil)
-  (setq haskell-stylish-on-save 't))
+  (dante-mode)
+  (setq xref-backend-functions '(etags--xref-backend t))
+  (setq haskell-tags-on-save t)
+  (setq haskell-stylish-on-save t))
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
 
 ;; Golang
@@ -161,7 +166,6 @@
 
 ;; Spells
 (setq exec-path (append exec-path '("/usr/local/bin")))
-(package-initialize)
 (use-package! guess-language
   :ensure t
   :defer t
@@ -171,7 +175,6 @@
         guess-language-langcodes '((en . ("en_US" "English"))
                                    (ru . ("ru-yeyo" "Russian"))))
   :diminish guess-language-mode )
-
 
 (use-package flyspell-correct-ivy
   :bind ("C-M-;" . flyspell-correct-wrapper)
