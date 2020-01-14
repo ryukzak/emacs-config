@@ -53,3 +53,4 @@
 
 (package! guess-language)
 (package! flyspell-correct-ivy)
+(package! go-rename)

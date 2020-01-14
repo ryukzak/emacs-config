@@ -79,6 +79,9 @@
 
 (reverse-input-method 'russian-computer)
 
+(setq company-idle-delay 0.2
+      company-minimum-prefix-length 2)
+
 ;; Hotkeys
 (global-set-key (kbd "s-f") 'counsel-projectile-find-file)
 (global-set-key (kbd "s-F") 'counsel-projectile-switch-project)
@@ -92,6 +95,7 @@
 (global-set-key (kbd "s-u") 'backward-word)
 (global-set-key (kbd "s-o") 'forward-word)
 (global-set-key (kbd "s-p") 'recenter)
+(global-set-key (kbd "s-d") 'mc/mark-next-like-this)
 
 (global-set-key (kbd "s-J") 'mwim-beginning-of-line)
 (global-set-key (kbd "s-L") 'mwim-end-of-line)
@@ -100,19 +104,21 @@
 (global-set-key (kbd "C-s") 'counsel-projectile-ag)
 (global-set-key (kbd "s-n") 'find-file)
 
+(global-set-key (kbd "s-Z") 'undo-tree-redo)
+
 (defun my-workspace ()
   (interactive)
+  (when (and (boundp 'treemacs-get-local-window) (treemacs-get-local-window))
+    (delete-window (treemacs-get-local-window)))
   (delete-other-windows (selected-window))
-  (treemacs)
-  (winum-select-window-1)
   (split-window-horizontally)
-  (winum-select-window-2)
-  (split-window-vertically)
-  (winum-select-window-3)
+  (other-window 1)
+  (split-window-vertically (- (window-total-height (selected-window)) 24))
+  (other-window 1)
   (switch-to-buffer "*compilation*")
-  (let ((w (selected-window)))
-    (window-resize w (- 24 (window-total-height w))))
-  (winum-select-window-1))
+  (unless (boundp 'treemacs--init) (treemacs))
+  (treemacs--init)
+  (other-window 1))
 (global-set-key (kbd "<f12>") 'my-workspace)
 
 ;; Autosave all buffers on focus lost
@@ -143,14 +149,22 @@
 
 ;; Haskell
 (defun rk-haskell-mode-hook ()
-  (toggle-truncate-lines nil)
+  (toggle-truncate-lines t)
   (dante-mode)
-  (setq xref-backend-functions '(etags--xref-backend t))
-  (setq haskell-tags-on-save t)
-  (setq haskell-stylish-on-save t))
+  (setq xref-backend-functions '(etags--xref-backend t)
+        haskell-indentation-layout-offset 4
+        haskell-indentation-left-offset 4
+        haskell-indentation-starter-offset 4
+        haskell-indentation-where-post-offset 4
+        haskell-indentation-where-pre-offset 4
+        haskell-tags-on-save t
+        haskell-stylish-on-save t))
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
 
 ;; Golang
+(use-package! go-rename
+  :ensure t)
+
 (defun rk-go-rename-safe-for-windows ()
   (interactive)
   (let ((windows-conf nil))
@@ -164,6 +178,7 @@
   (local-set-key (kbd "s-g") 'dumb-jump-go)
   (local-set-key (kbd "s-G") 'dumb-jump-back))
 (add-hook 'go-mode-hook 'rk-go-mode-hook)
+(add-hook 'before-save-hook #'gofmt-before-save)
 
 ;; Spells
 (setq exec-path (append exec-path '("/usr/local/bin")))
@@ -181,3 +196,9 @@
   :bind ("C-M-;" . flyspell-correct-wrapper)
   :init
   (setq flyspell-correct-interface #'flyspell-correct-ivy))
+
+(after! treemacs
+  (setq treemacs-width 24)
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
+  (with-eval-after-load 'treemacs
+    (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)))
