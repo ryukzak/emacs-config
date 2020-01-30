@@ -202,3 +202,15 @@
   (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
   (with-eval-after-load 'treemacs
     (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)))
+
+
+;; Javascript
+(use-package prettier-js
+  :ensure t
+  :init (progn
+          (add-hook 'js2-mode-hook #'prettier-js-mode)
+          (add-hook 'web-mode-hook #'prettier-js-mode)
+          (add-hook 'typescript-mode-hook #'prettier-js-mode)
+          (add-hook 'web-mode-hook #'(lambda ()
+                                       (enable-minor-mode
+                                        '("\\.jsx?\\'" . prettier-js-mode))))))
