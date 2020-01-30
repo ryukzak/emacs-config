@@ -29,11 +29,18 @@
 
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")
+(defun rk-org-mode-hook ()
+  (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer))
+(add-hook 'org-mode-hook 'rk-org-mode-hook)
+(setq org-indirect-buffer-display 'other-window)
+
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
 (setq display-line-numbers-type t)
 
+;(define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
+;(define-key map (kbd "r")        #'treemacs-visit-node-in-most-recently-used-window)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -200,6 +207,9 @@
 (after! treemacs
   (setq treemacs-width 24)
   (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
+  (treemacs-define-doubleclick-action 'file-node-open #'treemacs-visit-node-in-most-recently-used-window)
+  (treemacs-define-doubleclick-action 'file-node-close #'treemacs-visit-node-in-most-recently-used-window)
+  (treemacs-define-doubleclick-action 'tag-node #'treemacs-visit-node-in-most-recently-used-window)
   (with-eval-after-load 'treemacs
     (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)))
 
