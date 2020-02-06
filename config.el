@@ -30,9 +30,19 @@
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")
 (defun rk-org-mode-hook ()
-  (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer))
+  (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer)
+  (local-set-key (kbd "C-q") 'org-unfill-paragraph))
 (add-hook 'org-mode-hook 'rk-org-mode-hook)
 (setq org-indirect-buffer-display 'other-window)
+
+(defun org-unfill-paragraph (&optional region)
+  "Unfill the region, joining text paragraphs into a single
+    logical line. This is useful, e.g., for use with
+    `visual-line-mode'."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max)))
+    (org-fill-paragraph nil region)))
+
 
 
 ;; If you want to change the style of line numbers, change this to `relative' or
@@ -159,6 +169,9 @@
   (toggle-truncate-lines t)
   (dante-mode)
   (setq xref-backend-functions '(etags--xref-backend t)
+        company-idle-delay 0.2
+        company-minimum-prefix-length 3
+        haskell-process-type 'cabal-new-repl
         haskell-indentation-layout-offset 4
         haskell-indentation-left-offset 4
         haskell-indentation-starter-offset 4
