@@ -237,3 +237,22 @@
           (add-hook 'web-mode-hook #'(lambda ()
                                        (enable-minor-mode
                                         '("\\.jsx?\\'" . prettier-js-mode))))))
+
+;; Verilog
+(use-package verilog-mode
+  :ensure t
+  :init (progn
+          (setq verilog-tool 'verilog-linter
+                verilog-linter "iverilog"
+                verilog-coverage "iverilog"
+                verilog-simulator "vvp"
+                verilog-compiler "iverilog"
+                verilog-auto-newline nil
+                verilog-tab-always-indent nil
+                verilog-auto-indent-on-newline t
+                verilog-indent-level 4
+                verilog-case-indent 4
+                verilog-indent-level-module 0
+                verilog-indent-level-declaration 4
+                verilog-indent-level-behavioral  4
+                verilog-indent-level-directive 4)))
