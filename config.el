@@ -29,10 +29,6 @@
 
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")
-(defun rk-org-mode-hook ()
-  (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer)
-  (local-set-key (kbd "C-q") 'org-unfill-paragraph))
-(add-hook 'org-mode-hook 'rk-org-mode-hook)
 (setq org-indirect-buffer-display 'other-window)
 
 (defun org-unfill-paragraph (&optional region)
@@ -43,7 +39,27 @@
   (let ((fill-column (point-max)))
     (org-fill-paragraph nil region)))
 
+(setq org-publish-project-alist
+      '(("cpo-text"
+         :base-directory "~/Documents/org/cpo"
+         :publishing-directory "~/Documents/org/cpo/out/notes"
+         :section-numbers nil
+         :publishing-function org-html-publish-to-html
+         :table-of-contents nil)
+        ("cpo-figs"
+         :base-directory "~/Documents/org/cpo/fig"
+         :base-extension "jpg\\|gif\\|png"
+         :publishing-directory "~/Documents/org/cpo/out/notes/fig"
+         :publishing-function org-publish-attachment)
+        ("cpo" :components ("cpo-text" "cpo-figs"))))
 
+(defun rk-org-mode-hook ()
+  (auto-fill-mode 0)
+  (visual-line-mode t)
+  (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer)
+  (local-set-key (kbd "s-9") 'org-publish-all)
+  (local-set-key (kbd "C-q") 'org-unfill-paragraph))
+(add-hook 'org-mode-hook 'rk-org-mode-hook)
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
@@ -95,6 +111,7 @@
       (activate-input-method current))))
 
 (reverse-input-method 'russian-computer)
+
 
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 2)
@@ -191,6 +208,8 @@
     (save-buffer)
     (window-configuration-to-register windows-conf)
     (call-interactively 'go-rename)
+    (setq company-idle-delay 0.2
+          company-minimum-prefix-length 2)
     (jump-to-register windows-conf)))
 
 (defun rk-go-mode-hook ()
