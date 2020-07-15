@@ -1,11 +1,11 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
-;; refresh' after modifying this file!
+;; sync' after modifying this file!
 
 
-;; These are used for a number of things, particularly for GPG configuration,
-;; some email clients, file templates and snippets.
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+;; clients, file templates and snippets.
 (setq user-full-name "Aleksandr Penskoi"
       user-mail-address "aleksandr.penskoi@gmail.com")
 
@@ -14,155 +14,94 @@
 ;;
 ;; + `doom-font'
 ;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'
+;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;;   presentations or streaming.
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
+;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
+;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 (setq doom-font (font-spec :family "Anonymous Pro" :size 14))
 (setq all-the-icons-scale-factor 1)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. These are the defaults.
+;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
 (setq doom-modeline-icon nil)
 
-;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/Documents/org/")
 (setq org-indirect-buffer-display 'other-window)
 
-(defun org-unfill-paragraph (&optional region)
-  "Unfill the region, joining text paragraphs into a single
-    logical line. This is useful, e.g., for use with
-    `visual-line-mode'."
-  (interactive (progn (barf-if-buffer-read-only) '(t)))
-  (let ((fill-column (point-max)))
-    (org-fill-paragraph nil region)))
-
-(setq org-publish-project-alist
-      '(("cpo-text"
-         :base-directory "~/Documents/org/cpo"
-         :publishing-directory "~/Documents/org/cpo/out/notes"
-         :section-numbers nil
-         :publishing-function org-html-publish-to-html
-         :table-of-contents nil)
-        ("cpo-figs"
-         :base-directory "~/Documents/org/cpo/fig"
-         :base-extension "jpg\\|gif\\|png"
-         :publishing-directory "~/Documents/org/cpo/out/notes/fig"
-         :publishing-function org-publish-attachment)
-        ("cpo" :components ("cpo-text" "cpo-figs"))))
-
-(defun rk-org-mode-hook ()
-  (auto-fill-mode 0)
-  (visual-line-mode t)
-  (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer)
-  (local-set-key (kbd "s-9") 'org-publish-all)
-  (local-set-key (kbd "C-q") 'org-unfill-paragraph))
-(add-hook 'org-mode-hook 'rk-org-mode-hook)
-
-;; If you want to change the style of line numbers, change this to `relative' or
-;; `nil' to disable it:
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-;(define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
-;(define-key map (kbd "r")        #'treemacs-visit-node-in-most-recently-used-window)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
-;; - `use-package' for configuring packages
+;; - `use-package!' for configuring packages
 ;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', where Emacs
-;;   looks when you load packages with `require' or `use-package'.
+;; - `add-load-path!' for adding directories to the `load-path', relative to
+;;   this file. Emacs searches the `load-path' when you load packages with
+;;   `require' or `use-package'.
 ;; - `map!' for binding new keys
 ;;
 ;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c g k').
+;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
 ;; This will open documentation for it, including demos of how they are used.
 ;;
-;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
+;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
 (package-initialize)
+(add-to-list 'load-path "/Users/penskoi/.local/bin")
 
-;; Hotkeys on russian layout
-(defun reverse-input-method (input-method)
-  "Build the reverse mapping of single letters from INPUT-METHOD."
-  (interactive
-   (list (read-input-method-name "Use input method (default current): ")))
-  (if (and input-method (symbolp input-method))
-      (setq input-method (symbol-name input-method)))
-  (let ((current current-input-method)
-        (modifiers '(nil (control) (meta) (control meta) (super))))
-    (when input-method
-      (activate-input-method input-method))
-    (when (and current-input-method quail-keyboard-layout)
-      (dolist (map (cdr (quail-map)))
-        (let* ((to (car map))
-               (from (quail-get-translation
-                      (cadr map) (char-to-string to) 1)))
-          (when (and (characterp from) (characterp to))
-            (dolist (mod modifiers)
-              (define-key local-function-key-map
-                (vector (append mod (list from)))
-                (vector (append mod (list to)))))))))
-    (when input-method
-      (activate-input-method current))))
+(load! "misc.el")
+(load! "kbd.el")
 
-(reverse-input-method 'russian-computer)
-
-
-(setq company-idle-delay 0.2
-      company-minimum-prefix-length 2)
-
-;; Hotkeys
-(global-set-key (kbd "s-f") 'counsel-projectile-find-file)
-(global-set-key (kbd "s-F") 'counsel-projectile-switch-project)
-(global-set-key (kbd "s-r") 'counsel-recentf)
-(global-set-key (kbd "s-w") 'kill-this-buffer)
-
-(global-set-key (kbd "s-i") 'previous-line)
-(global-set-key (kbd "s-k") 'next-line)
-(global-set-key (kbd "s-j") 'backward-char)
-(global-set-key (kbd "s-l") 'forward-char)
-(global-set-key (kbd "s-u") 'backward-word)
-(global-set-key (kbd "s-o") 'forward-word)
-(global-set-key (kbd "s-p") 'recenter)
-(global-set-key (kbd "s-d") 'mc/mark-next-like-this)
-
-(global-set-key (kbd "s-J") 'mwim-beginning-of-line)
-(global-set-key (kbd "s-L") 'mwim-end-of-line)
-
-(global-set-key (kbd "s-s") 'swiper)
-(global-set-key (kbd "C-s") 'counsel-projectile-ag)
-(global-set-key (kbd "s-n") 'find-file)
-
-(global-set-key (kbd "s-Z") 'undo-tree-redo)
-
-(defun my-workspace ()
-  (interactive)
-  (when (and (boundp 'treemacs-get-local-window) (treemacs-get-local-window))
-    (delete-window (treemacs-get-local-window)))
-  (delete-other-windows (selected-window))
-  (split-window-horizontally)
-  (other-window 1)
-  (split-window-vertically (- (window-total-height (selected-window)) 24))
-  (other-window 1)
-  (switch-to-buffer "*compilation*")
-  (unless (boundp 'treemacs--init) (treemacs))
-  (treemacs--init)
-  (other-window 1))
-(global-set-key (kbd "<f12>") 'my-workspace)
 
 ;; Autosave all buffers on focus lost
-(setq auto-save-default nil)
-(setq create-lockfiles nil)
-
+(defadvice switch-to-buffer (before save-buffer-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice other-window (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
 (defun save-all ()
   (interactive)
   (save-some-buffers t))
+
 (add-hook 'focus-out-hook 'save-all)
+
+
+(setq dired-omit-files
+      "^\\.?#\\|^\\.$\\|^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\|git\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
+
+
+;; autocomplete
+(setq company-idle-delay 0.2
+      company-minimum-prefix-length 3)
+
+
+;; Spells
+(setq exec-path (append exec-path '("/usr/local/bin" "/Users/penskoi/.local/bin")))
+(use-package! guess-language
+  :ensure t
+  :defer t
+  :init (add-hook 'text-mode-hook #'guess-language-mode)
+  :config
+  (setq guess-language-languages '(en ru)
+        guess-language-langcodes '((en . ("en_US" "English"))
+                                   (ru . ("ru-yeyo" "Russian"))))
+  :diminish guess-language-mode )
+
+(use-package flyspell-correct-ivy
+  :bind ("C-M-;" . flyspell-correct-wrapper)
+  :init
+  (setq flyspell-correct-interface #'flyspell-correct-ivy))
+
 
 ;; Compile
 (defun save-all-and-compile ()
@@ -181,13 +120,20 @@
     (save-all-and-compile)))
 (global-set-key (kbd "s-B") 'save-all-and-compile-by)
 
+
 ;; Haskell
+(use-package ormolu
+ :bind
+ (:map haskell-mode-map
+   ("C-c r" . ormolu-format-buffer)))
+
+
 (defun rk-haskell-mode-hook ()
   (toggle-truncate-lines t)
   (dante-mode)
+  (local-set-key (kbd "C-c r") 'ormolu-format-buffer)
+  (turn-on-haskell-indentation)
   (setq xref-backend-functions '(etags--xref-backend t)
-        company-idle-delay 0.2
-        company-minimum-prefix-length 3
         haskell-process-type 'cabal-new-repl
         haskell-indentation-layout-offset 4
         haskell-indentation-left-offset 4
@@ -195,55 +141,9 @@
         haskell-indentation-where-post-offset 4
         haskell-indentation-where-pre-offset 4
         haskell-tags-on-save t
+        ormolu-format-on-save-mode nil
         haskell-stylish-on-save t))
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
-
-;; Golang
-(use-package! go-rename
-  :ensure t)
-
-(defun rk-go-rename-safe-for-windows ()
-  (interactive)
-  (let ((windows-conf nil))
-    (save-buffer)
-    (window-configuration-to-register windows-conf)
-    (call-interactively 'go-rename)
-    (setq company-idle-delay 0.2
-          company-minimum-prefix-length 2)
-    (jump-to-register windows-conf)))
-
-(defun rk-go-mode-hook ()
-  (local-set-key (kbd "s-6") 'go-rename-safe-for-windows)
-  (local-set-key (kbd "s-g") 'dumb-jump-go)
-  (local-set-key (kbd "s-G") 'dumb-jump-back))
-(add-hook 'go-mode-hook 'rk-go-mode-hook)
-(add-hook 'before-save-hook #'gofmt-before-save)
-
-;; Spells
-(setq exec-path (append exec-path '("/usr/local/bin")))
-(use-package! guess-language
-  :ensure t
-  :defer t
-  :init (add-hook 'text-mode-hook #'guess-language-mode)
-  :config
-  (setq guess-language-languages '(en ru)
-        guess-language-langcodes '((en . ("en_US" "English"))
-                                   (ru . ("ru-yeyo" "Russian"))))
-  :diminish guess-language-mode )
-
-(use-package flyspell-correct-ivy
-  :bind ("C-M-;" . flyspell-correct-wrapper)
-  :init
-  (setq flyspell-correct-interface #'flyspell-correct-ivy))
-
-(after! treemacs
-  (setq treemacs-width 24)
-  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
-  (treemacs-define-doubleclick-action 'file-node-open #'treemacs-visit-node-in-most-recently-used-window)
-  (treemacs-define-doubleclick-action 'file-node-close #'treemacs-visit-node-in-most-recently-used-window)
-  (treemacs-define-doubleclick-action 'tag-node #'treemacs-visit-node-in-most-recently-used-window)
-  (with-eval-after-load 'treemacs
-    (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)))
 
 
 ;; Javascript
@@ -275,3 +175,22 @@
                 verilog-indent-level-declaration 4
                 verilog-indent-level-behavioral  4
                 verilog-indent-level-directive 4)))
+
+
+;; org-mode
+(defun rk-org-mode-hook ()
+  (auto-fill-mode 0)
+  (visual-line-mode t)
+  (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer)
+  (local-set-key (kbd "s-9") 'org-publish-all)
+  (local-set-key (kbd "C-q") 'org-unfill-paragraph))
+
+(defun org-latex-quote-block (quote-block contents info)
+  "Transcode a QUOTE-BLOCK element from Org to LaTeX.
+    CONTENTS holds the contents of the block.  INFO is a plist
+    holding contextual information."
+  (org-latex--wrap-label
+   quote-block
+   (format "\\begin{leftbar}\n%s\\end{leftbar}" contents)))
+
+(add-hook 'org-mode-hook 'rk-org-mode-hook)
