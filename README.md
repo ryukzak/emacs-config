@@ -1,30 +1,23 @@
-Русская текста У тебя есть всё — высокая должность, зарплата в несколько сотен
-тысяч рублей, надёжность и стабильность государственной корпорации, ранговые
-корпоративные игры. У тебя малиновые штаны — и подчинённые разве что не
-приседают и не делают «Ку».
-
-
 # emacs-conf
 
-## Install emacs on mac os
-```
+## Emacs on Mac OS
+```sh
 brew tap d12frosted/emacs-plus
 brew install emacs-plus --with-modern-icon
 ln -s /usr/local/opt/emacs-plus/Emacs.app /Applications/Emacs.app
 ```
 
-## Install doom emacs
-```
+## Doom emacs
+```sh
 brew install coreutils git ripgrep fd clang
 git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 ```
 
-## Install spacemacs & my config
-```
-git clone ssh://git@nitta.io:2222/penskoi/emacs-conf.git
-git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-ln -s Documents/emacs-conf/.spacemacs
+## Install my config
+```sh
+git clone ssh://git@nitta.io:2222/penskoi/emacs-conf.git ~/.doom.d
+~/.emacs.d/bin/doom sync
 ```
 
 ## Dependency
@@ -55,4 +48,4 @@ npm install --global tern prettier
 ```
 brew install the_silver_searcher
 ```
-Проверка русскоа текста
+
