@@ -97,3 +97,12 @@
 (global-set-key (kbd "s-x") 'kill-region)
 (global-set-key (kbd "s-Z") 'undo-tree-redo)
 (global-set-key (kbd "S-SPC") 'set-mark-command)
+
+(when (eq system-type 'gnu/linux)
+  (setq x-super-keysym 'meta
+        x-meta-keysym 'super)
+  (global-set-key (kbd "s-v") 'yank)
+  (global-set-key (kbd "s-c") 'kill-ring-save)
+  (global-set-key (kbd "s-x") 'kill-region)
+  (global-set-key (kbd "s-z") 'undo)
+  (global-set-key (kbd "s-Z") 'redo))
