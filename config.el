@@ -94,7 +94,7 @@
   :config
   (setq guess-language-languages '(en ru)
         guess-language-langcodes '((en . ("en_US" "English"))
-                                   (ru . ("ru-yeyo" "Russian"))))
+                                   (ru . ("russian" "Russian"))))
   :diminish guess-language-mode )
 
 (use-package flyspell-correct-ivy
