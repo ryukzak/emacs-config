@@ -51,5 +51,6 @@
 ;(unpin! t)
 
 (package! ormolu)
+(package! prettier-js)
 (package! guess-language)
 (package! flyspell-correct-ivy)
