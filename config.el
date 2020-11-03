@@ -159,12 +159,10 @@
 (use-package prettier-js
   :ensure t
   :init (progn
-          (add-hook 'js2-mode-hook #'prettier-js-mode)
-          (add-hook 'web-mode-hook #'prettier-js-mode)
-          (add-hook 'typescript-mode-hook #'prettier-js-mode)
-          (add-hook 'web-mode-hook #'(lambda ()
-                                       (enable-minor-mode
-                                        '("\\.jsx?\\'" . prettier-js-mode))))))
+          (add-hook 'js2-mode-hook 'prettier-js-mode)
+          (add-hook 'typescript-mode-hook 'prettier-js-mode)
+          (add-hook 'typescript-tsx-mode-hook 'prettier-js-mode)))
+
 
 ;; Verilog
 (use-package verilog-mode
