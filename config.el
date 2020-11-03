@@ -203,3 +203,7 @@
    (format "\\begin{leftbar}\n%s\\end{leftbar}" contents)))
 
 (add-hook 'org-mode-hook 'rk-org-mode-hook)
+
+(use-package ox-reveal
+  :ensure t
+  :init (progn (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")))
