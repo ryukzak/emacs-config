@@ -86,7 +86,6 @@
 
 
 ;; Spells
-(setq exec-path (append exec-path '("/usr/local/bin" "/Users/penskoi/.local/bin")))
 (use-package! guess-language
   :ensure t
   :defer t
@@ -94,8 +93,10 @@
   :config
   (setq guess-language-languages '(en ru)
         guess-language-langcodes '((en . ("en_US" "English"))
-                                   (ru . ("russian" "Russian"))))
-  :diminish guess-language-mode )
+                                   (ru . ("ru-yeyo" "Russian"))))
+  )
+
+(add-hook 'text-mode-hook #'flyspell-mode)
 
 (use-package flyspell-correct-ivy
   :bind ("C-M-;" . flyspell-correct-wrapper)

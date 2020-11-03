@@ -23,9 +23,9 @@ git clone ssh://git@nitta.io:2222/penskoi/emacs-conf.git ~/.doom.d
 ## Dependency
 
 ### Spellcheck
-
-``` sh
-brew install ispell aspell
+``` console
+> brew install ispell # for checking
+> brew install aspell # for dictionary
 ```
 
 ### Markdown support
