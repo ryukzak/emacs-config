@@ -161,7 +161,13 @@
   :init (progn
           (add-hook 'js2-mode-hook 'prettier-js-mode)
           (add-hook 'typescript-mode-hook 'prettier-js-mode)
+          (add-hook 'scss-mode-hook 'prettier-js-mode)
           (add-hook 'typescript-tsx-mode-hook 'prettier-js-mode)))
+
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
 
 
 ;; Verilog

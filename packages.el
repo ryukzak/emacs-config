@@ -53,6 +53,7 @@
 (package! ormolu)
 
 (package! prettier-js)
+(package! editorconfig)
 
 (package! guess-language)
 (package! flyspell-correct-ivy)
