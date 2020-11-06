@@ -51,6 +51,7 @@
 ;(unpin! t)
 
 (package! ormolu)
+(package! lsp-haskell)
 
 (package! prettier-js)
 (package! editorconfig)

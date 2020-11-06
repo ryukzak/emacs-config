@@ -131,27 +131,19 @@
 (use-package lsp-haskell
   :ensure t
   :config
-  (setq lsp-haskell-process-path-hie "haskell-language-server-wrapper")
+  (setq lsp-haskell-server-path (concat (getenv "HOME") "/.local/bin/haskell-language-server-wrapper"))kk
   ;; Comment/uncomment this line to see interactions between lsp client/server.
-  ;;(setq lsp-log-io t)
- )
+  (setq lsp-log-io t)
+  )
 
 (defun rk-haskell-mode-hook ()
-  ;; (toggle-truncate-lines t)
-  ;; (dante-mode)
-  ;; (local-set-key (kbd "C-c r") 'ormolu-format-buffer)
-  ;; (turn-on-haskell-indentation)
-  (setq ;; xref-backend-functions '(etags--xref-backend t)
-        ;; haskell-process-type 'cabal-new-repl
-        ;; haskell-indentation-layout-offset 4
-        ;; haskell-indentation-left-offset 4
-        ;; haskell-indentation-starter-offset 4
-        ;; haskell-indentation-where-post-offset 4
-        ;; haskell-indentation-where-pre-offset 4
-        ;; haskell-tags-on-save t
-        ;; ormolu-format-on-save-mode nil
-        haskell-stylish-on-save t)
-  )
+  (setq
+        haskell-indentation-layout-offset 4
+        haskell-indentation-left-offset 4
+        haskell-indentation-starter-offset 4
+        haskell-indentation-where-post-offset 4
+        haskell-indentation-where-pre-offset 4
+        haskell-stylish-on-save t))
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
 
 
