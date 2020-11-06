@@ -95,7 +95,8 @@
 (global-set-key (kbd "s-n") 'find-file)
 
 (global-set-key (kbd "s-x") 'kill-region)
-(global-set-key (kbd "s-Z") 'undo-tree-redo)
+(global-set-key (kbd "s-z") 'undo)
+(global-set-key (kbd "s-Z") 'redo)
 (global-set-key (kbd "S-SPC") 'set-mark-command)
 
 (when (eq system-type 'gnu/linux)
