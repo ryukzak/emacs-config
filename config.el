@@ -21,7 +21,7 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "Anonymous Pro" :size 14))
+(setq doom-font (font-spec :family "Hasklig" :size 13))
 (setq all-the-icons-scale-factor 1)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -123,27 +123,31 @@
 
 
 ;; Haskell
-;; (use-package ormolu
-;;  :bind
-;;  (:map haskell-mode-map
-;;    ("C-c r" . ormolu-format-buffer)))
+(use-package ormolu
+  :hook (haskell-mode . ormolu-format-on-save-mode)
+  :config
+  (setq ormolu-process-path "fourmolu")
+  :bind
+  (:map haskell-mode-map
+        ("C-c r" . ormolu-format-buffer)))
 
 (use-package lsp-haskell
   :ensure t
   :config
-  (setq lsp-haskell-server-path (concat (getenv "HOME") "/.local/bin/haskell-language-server-wrapper"))kk
-  ;; Comment/uncomment this line to see interactions between lsp client/server.
-  (setq lsp-log-io t)
-  )
+  (setq lsp-haskell-server-path (concat (getenv "HOME") "/.local/bin/haskell-language-server-wrapper")
+        lsp-log-io t
+        lsp-haskell-formatting-provider "fourmolu"
+        lsp-document-sync-method 'full))
 
 (defun rk-haskell-mode-hook ()
+  (push "[/\\\\]gen/" lsp-file-watch-ignored)
   (setq
         haskell-indentation-layout-offset 4
         haskell-indentation-left-offset 4
         haskell-indentation-starter-offset 4
         haskell-indentation-where-post-offset 4
         haskell-indentation-where-pre-offset 4
-        haskell-stylish-on-save t))
+        haskell-stylish-on-save nil))
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
 
 

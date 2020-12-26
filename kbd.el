@@ -69,7 +69,9 @@
 (global-set-key (kbd "s-O") 'forward-paragraph)
 
 (global-set-key (kbd "s-p") 'recenter)
-(global-set-key (kbd "s-P") 'counsel-projectile-find-file)
+(global-set-key (kbd "s-P") 'counsel-git)
+(global-set-key (kbd "s-O") 'eshell)
+(global-set-key (kbd "C-c f f") 'counsel-git)
 ;; (global-set-key (kbd "s-d") 'mc/mark-next-like-this)
 
 
