@@ -22,6 +22,9 @@ git clone ssh://git@nitta.io:2222/penskoi/emacs-conf.git ~/.doom.d
 
 ## Dependency
 
+### Hasklig font
+https://github.com/i-tu/Hasklig
+
 ### Spellcheck
 ``` console
 > brew install ispell # for checking
