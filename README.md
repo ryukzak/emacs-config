@@ -49,6 +49,6 @@ npm install --global tern prettier
 
 ### Utils
 ```
-brew install the_silver_searcher
+brew install ripgrep
 ```
 

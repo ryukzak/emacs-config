@@ -79,7 +79,7 @@
 (global-set-key (kbd "s-r") 'kill-word)
 (global-set-key (kbd "s-d") 'delete-backward-char)
 (global-set-key (kbd "s-f") 'delete-forward-char)
-(global-set-key (kbd "s-F") 'counsel-projectile-ag)
+(global-set-key (kbd "s-F") 'counsel-projectile-rg)
 
 (defun backward-kill-line (arg)
   "Kill ARG lines backward."
