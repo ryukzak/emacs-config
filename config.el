@@ -150,6 +150,9 @@
         haskell-stylish-on-save nil))
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
 
+(use-package dhall-mode
+  :ensure t
+  :mode "\\.dhall\\'")
 
 ;; Javascript
 (use-package prettier-js

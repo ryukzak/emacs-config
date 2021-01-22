@@ -60,3 +60,4 @@
 (package! flyspell-correct-ivy)
 
 (package! ox-reveal)
+(package! dhall-mode)
