@@ -45,6 +45,9 @@
 (global-set-key (kbd "<f12>") 'my-workspace)
 
 
+(global-unset-key (kbd "M-<down-mouse-1>"))
+(global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click)
+(global-set-key (kbd "s-D") 'mc/mark-next-like-this)
 
 
 ;; Hotkeys
