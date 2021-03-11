@@ -192,18 +192,18 @@
 ;; org-mode
 (defun rk-org-mode-hook ()
   (auto-fill-mode 0)
-  (visual-line-mode t)
+w  (visual-line-mode t)
+
+  (require 'ob-python)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)
+     (forth . t)
+     (emacs-lisp . t)))
+
   (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer)
   (local-set-key (kbd "s-9") 'org-publish-all)
   (local-set-key (kbd "C-q") 'org-unfill-paragraph))
-
-(defun org-latex-quote-block (quote-block contents info)
-  "Transcode a QUOTE-BLOCK element from Org to LaTeX.
-    CONTENTS holds the contents of the block.  INFO is a plist
-    holding contextual information."
-  (org-latex--wrap-label
-   quote-block
-   (format "\\begin{leftbar}\n%s\\end{leftbar}" contents)))
 
 (add-hook 'org-mode-hook 'rk-org-mode-hook)
 
