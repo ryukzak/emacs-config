@@ -61,3 +61,5 @@
 
 (package! ox-reveal)
 (package! dhall-mode)
+(package! ox-leanpub)
+(package! lsp-docker)

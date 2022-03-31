@@ -21,13 +21,14 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "Hasklig" :size 13))
+;; (setq doom-font (font-spec :family "Hasklig" :size 13))
+(setq doom-font (font-spec :family "Fira Code" :size 13))
 (setq all-the-icons-scale-factor 1)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-opera-light)
 (setq doom-modeline-icon nil)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -79,10 +80,14 @@
 (setq dired-omit-files
       "\\.hie$\\|^\\.?#\\|^\\.$\\|^.DS_Store\\'\\|^.project\\(?:ile\\)?\\'\\|^.\\(svn\\|git\\)\\'\\|^.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")
 
-
 ;; autocomplete
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 3)
+
+(setenv "PATH" (concat "/Users/penskoi/.local/bin:/usr/local/bin:" (getenv "PATH")))
+(add-to-list 'exec-path "/Users/penskoi/.local/bin")
+(add-to-list 'exec-path "/usr/local/bin")
+
 
 
 ;; Spells
@@ -120,27 +125,31 @@
       (setq compile-command command))
     (save-all-and-compile)))
 (global-set-key (kbd "s-B") 'save-all-and-compile-by)
-
+(setq compilation-scroll-output t)
 
 ;; Haskell
 (use-package ormolu
   :hook (haskell-mode . ormolu-format-on-save-mode)
   :config
-  (setq ormolu-process-path "fourmolu")
+  (setq ormolu-process-path "fourmolu"
+        ormolu-extra-args nil)
   :bind
   (:map haskell-mode-map
-        ("C-c r" . ormolu-format-buffer)))
+   ("<f1>" . hoogle)
+   ("C-c r" . ormolu-format-buffer)))
 
 (use-package lsp-haskell
   :ensure t
   :config
   (setq lsp-haskell-server-path (concat (getenv "HOME") "/.local/bin/haskell-language-server-wrapper")
         lsp-log-io t
+        lsp-file-watch-threshold 2500
         lsp-haskell-formatting-provider "fourmolu"
         lsp-document-sync-method 'full))
 
 (defun rk-haskell-mode-hook ()
   (push "[/\\\\]gen/" lsp-file-watch-ignored)
+  ;; (setq haskell-process-path-ghci "stack exec -- ghci")
   (setq
         haskell-indentation-layout-offset 4
         haskell-indentation-left-offset 4
@@ -149,25 +158,59 @@
         haskell-indentation-where-pre-offset 4
         haskell-stylish-on-save nil))
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
+(add-hook 'inferior-haskell-mode-hook
+      (lambda ()
+        (setq compilation-first-column 1)
+        (setq compilation-error-regexp-alist
+          (cons `("^\\(.+?\\):\\([0-9]+\\):\\(\\([0-9]+\\):\\)?\\( \\|\n *\\)\\(Warning\\)?"
+              1 2 4 ,@(if (fboundp 'compilation-fake-loc)
+                      '((6) nil)))
+            (cdr (cdr inferior-haskell-error-regexp-alist))))))
+
 
 (use-package dhall-mode
   :ensure t
   :mode "\\.dhall\\'")
 
 ;; Javascript
+(use-package web-mode
+  :ensure t
+  :mode   (("\\.html?\\'" . web-mode)
+           ("\\.css\\'"   . web-mode)
+           ("\\.jsx\\'"  . web-mode)
+           ("\\.tsx\\'"  . web-mode)
+           ("\\.json\\'"  . web-mode))
+  :init (progn
+          (defun rk-web-mode-hook ()
+            (setq-default web-mode-comment-formats (remove '("javascript" . "/*") web-mode-comment-formats))
+            (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
+            (add-to-list 'web-mode-comment-formats '("tsx" . "//")))
+          (add-hook 'web-mode-hook 'rk-web-mode-hook)))
+
 (use-package prettier-js
   :ensure t
   :init (progn
-          (add-hook 'js2-mode-hook 'prettier-js-mode)
-          (add-hook 'typescript-mode-hook 'prettier-js-mode)
-          (add-hook 'scss-mode-hook 'prettier-js-mode)
-          (add-hook 'typescript-tsx-mode-hook 'prettier-js-mode)))
+          (add-hook 'web-mode-hook 'prettier-js-mode)))
 
 (use-package editorconfig
   :ensure t
   :config
   (editorconfig-mode 1))
 
+(defun rk-markdown-mode-hook ()
+  (local-set-key (kbd "s-1") 'markdown-insert-header-atx-1)
+  (local-set-key (kbd "s-2") 'markdown-insert-header-atx-2)
+  (local-set-key (kbd "s-3") 'markdown-insert-header-atx-3)
+  (local-set-key (kbd "s-4") 'markdown-insert-header-atx-4)
+  (local-set-key (kbd "s-5") 'markdown-insert-header-atx-5))
+
+(use-package markdown-mode
+  :ensure t
+  :config
+  (add-hook 'markdown-mode-hook 'rk-markdown-mode-hook))
+
+(use-package! ox-leanpub
+  :after org)
 
 ;; Verilog
 (use-package verilog-mode
@@ -187,7 +230,6 @@
                 verilog-indent-level-declaration 4
                 verilog-indent-level-behavioral  4
                 verilog-indent-level-directive 4)))
-
 
 ;; org-mode
 (defun rk-org-mode-hook ()
@@ -210,3 +252,16 @@
 (use-package ox-reveal
   :ensure t
   :init (progn (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")))
+
+(defun save-and-cider-eval-buffer ()
+  (interactive)
+  (save-buffer)
+  (cider-eval-buffer))
+
+(use-package cider
+  :ensure t
+  :bind (("<f12>" . cider-format-buffer)
+         ("C-c l l" . save-and-cider-eval-buffer)))
+
+(use-package lsp-docker
+  :ensure t)

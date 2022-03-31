@@ -27,8 +27,6 @@
 
 (reverse-input-method 'russian-computer)
 
-
-
 (defun my-workspace ()
   (interactive)
   (when (and (boundp 'treemacs-get-local-window) (treemacs-get-local-window))
@@ -48,7 +46,6 @@
 (global-unset-key (kbd "M-<down-mouse-1>"))
 (global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click)
 (global-set-key (kbd "s-D") 'mc/mark-next-like-this)
-
 
 ;; Hotkeys
 ;; (global-set-key (kbd "C-y") 'counsel-projectile-find-file)
@@ -73,8 +70,7 @@
 
 (global-set-key (kbd "s-p") 'recenter)
 (global-set-key (kbd "s-P") 'counsel-git)
-(global-set-key (kbd "s-O") 'eshell)
-(global-set-key (kbd "C-c f f") 'counsel-git)
+(global-set-key (kbd "C-~") 'shell)
 ;; (global-set-key (kbd "s-d") 'mc/mark-next-like-this)
 
 
@@ -83,6 +79,18 @@
 (global-set-key (kbd "s-d") 'delete-backward-char)
 (global-set-key (kbd "s-f") 'delete-forward-char)
 (global-set-key (kbd "s-F") 'counsel-projectile-rg)
+
+(global-set-key (kbd "s-0") 'paredit-forward-slurp-sexp)
+(global-set-key (kbd "s-)") 'paredit-forward-barf-sexp)
+
+(global-set-key (kbd "s-9") 'paredit-backward-slurp-sexp)
+(global-set-key (kbd "s-(") 'paredit-backward-barf-sexp)
+
+(defun run-smerge ()
+  (interactive)
+  (shell-command "smerge ."))
+
+(global-set-key (kbd "<f11>") 'run-smerge)
 
 (defun backward-kill-line (arg)
   "Kill ARG lines backward."
