@@ -63,3 +63,7 @@
 (package! dhall-mode)
 (package! ox-leanpub)
 (package! lsp-docker)
+(package! ergoemacs-mode)
+(package! direnv)
+(package! rg)
+(package! elisp-format)

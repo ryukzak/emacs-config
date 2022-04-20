@@ -4,44 +4,47 @@
 ;; Hotkeys on russian layout
 (defun reverse-input-method (input-method)
   "Build the reverse mapping of single letters from INPUT-METHOD."
-  (interactive
-   (list (read-input-method-name "Use input method (default current): ")))
-  (if (and input-method (symbolp input-method))
+  (interactive (list (read-input-method-name "Use input method (default current): ")))
+  (if (and input-method
+           (symbolp input-method))
       (setq input-method (symbol-name input-method)))
   (let ((current current-input-method)
-        (modifiers '(nil (control) (meta) (control meta) (super))))
-    (when input-method
-      (activate-input-method input-method))
-    (when (and current-input-method quail-keyboard-layout)
+        (modifiers '(nil (control)
+                         (meta)
+                         (control meta)
+                         (super))))
+    (when input-method (activate-input-method input-method))
+    (when (and current-input-method
+               quail-keyboard-layout)
       (dolist (map (cdr (quail-map)))
         (let* ((to (car map))
-               (from (quail-get-translation
-                      (cadr map) (char-to-string to) 1)))
-          (when (and (characterp from) (characterp to))
+               (from (quail-get-translation (cadr map)
+                                            (char-to-string to) 1)))
+          (when (and (characterp from)
+                     (characterp to))
             (dolist (mod modifiers)
-              (define-key local-function-key-map
-                (vector (append mod (list from)))
+              (define-key local-function-key-map (vector (append mod (list from)))
                 (vector (append mod (list to)))))))))
-    (when input-method
-      (activate-input-method current))))
+    (when input-method (activate-input-method current))))
 
 (reverse-input-method 'russian-computer)
 
 (defun my-workspace ()
   (interactive)
-  (when (and (boundp 'treemacs-get-local-window) (treemacs-get-local-window))
+  (when (and (boundp 'treemacs-get-local-window)
+             (treemacs-get-local-window))
     (delete-window (treemacs-get-local-window)))
   (delete-other-windows (selected-window))
   (split-window-horizontally)
   (other-window 1)
- (split-window-vertically (- (window-total-height (selected-window)) 24))
+  (split-window-vertically (- (window-total-height (selected-window)) 24))
   (other-window 1)
   (switch-to-buffer "*compilation*")
-  (unless (boundp 'treemacs--init) (treemacs))
+  (unless (boundp 'treemacs--init)
+    (treemacs))
   (treemacs--init)
   (other-window 1))
 (global-set-key (kbd "<f12>") 'my-workspace)
-
 
 (global-unset-key (kbd "M-<down-mouse-1>"))
 (global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click)
@@ -112,12 +115,34 @@
 (global-set-key (kbd "s-Z") 'redo)
 (global-set-key (kbd "S-SPC") 'set-mark-command)
 
+(setq projectile-sort-order 'recentf)
+
+;; Compile
+(defun save-all-and-compile ()
+  (interactive)
+  (save-some-buffers 1)
+  (let ((default-directory (projectile-ensure-project (projectile-project-root))))
+    (compile compile-command)))
+
+(defun save-all-and-compile-by ()
+  (interactive)
+  (save-some-buffers 1)
+  (let ((default-directory (projectile-ensure-project (projectile-project-root))))
+    (counsel-compile)))
+
+(setq compilation-scroll-output t)
+
 (when (eq system-type 'gnu/linux)
-  (setq x-super-keysym 'meta
-        x-meta-keysym 'super)
-  (global-set-key (kbd "<XF86Launch1>") 'menu-bar-mode) ;; ThinkVantage
-  (global-set-key (kbd "s-v") 'yank)
-  (global-set-key (kbd "s-c") 'kill-ring-save)
-  (global-set-key (kbd "s-x") 'kill-region)
-  (global-set-key (kbd "s-z") 'undo)
-  (global-set-key (kbd "s-Z") 'redo))
+  (setq ergoemacs-theme nil)
+  (setq ergoemacs-keyboard-layout "us")
+  (ergoemacs-mode 1)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'counsel-projectile-find-file)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-o") 'counsel-buffer-or-recentf)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-x C-f") 'ergoemacs-find-file)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-`") 'magit)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-b") 'counsel-switch-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c C-b") 'save-all-and-compile-by)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") 'swiper)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-f") 'projectile-ripgrep)
+  (xterm-mouse-mode))
