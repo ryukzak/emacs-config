@@ -28,7 +28,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-monokai-machine)
+(setq doom-theme 'doom-dracula)
 (setq doom-modeline-icon nil)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -108,7 +108,8 @@
 ;; Haskell
 (use-package ormolu
   :hook (haskell-mode . ormolu-format-on-save-mode)
-  :config (setq ormolu-process-path "fourmolu" ormolu-extra-args nil)
+  :config (setq ormolu-process-path "fourmolu"
+                ormolu-cabal-default-extensions 't)
   :bind (:map haskell-mode-map
          ("<f1>" . hoogle)
          ("C-c r" . ormolu-format-buffer)))
@@ -116,9 +117,11 @@
 (use-package lsp-haskell
   :ensure t
   :config (setq lsp-haskell-server-path
-                "/nix/store/bcd9f7801lqvbqzyhimfmczqi1prmcrp-haskell-language-server-exe-haskell-language-server-1.6.1.0/bin/haskell-language-server"
-                lsp-log-io t lsp-file-watch-threshold 2500 lsp-haskell-formatting-provider
-                "fourmolu" lsp-document-sync-method 'full))
+                "haskell-language-server"
+                lsp-log-io t
+                lsp-file-watch-threshold 2500
+                lsp-haskell-formatting-provider "fourmolu"
+                lsp-document-sync-method 'full))
 
 (defun rk-haskell-mode-hook ()
   (push "[/\\\\]gen/" lsp-file-watch-ignored)

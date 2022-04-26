@@ -117,18 +117,15 @@
 
 (setq projectile-sort-order 'recentf)
 
-;; Compile
+(defun save-all-and-recompile ()
+  (interactive)
+  (run-at-time nil nil #'ivy-done)
+  (save-all-and-compile))
+
 (defun save-all-and-compile ()
   (interactive)
   (save-some-buffers 1)
-  (let ((default-directory (projectile-ensure-project (projectile-project-root))))
-    (compile compile-command)))
-
-(defun save-all-and-compile-by ()
-  (interactive)
-  (save-some-buffers 1)
-  (let ((default-directory (projectile-ensure-project (projectile-project-root))))
-    (counsel-compile)))
+  (+ivy/project-compile))
 
 (setq compilation-scroll-output t)
 
@@ -141,8 +138,20 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-x C-f") 'ergoemacs-find-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-`") 'magit)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-b") 'counsel-switch-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'save-all-and-recompile)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c C-b") 'save-all-and-compile-by)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") 'swiper)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-f") 'projectile-ripgrep)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-f") '+default/search-project)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-'") 'comment-line)
+  (defun clean-term-artifacts ()
+    "e.g. arrow keys, super mod"
+    (interactive)
+    (when (eq (line-number-at-pos (point))
+              (line-number-at-pos (point-max)))
+      (replace-regexp-in-region "[ABCD]+$" "" (line-beginning-position)))
+    (while (re-search-backward "^[ABCD]$" nil t)
+      (delete-char 1))
+    (replace-regexp-in-region "[[:digit:]]*;[[:digit:]]u" "" (line-beginning-position)
+                              (line-end-position)))
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "<f7>") 'clean-term-artifacts)
   (xterm-mouse-mode))
