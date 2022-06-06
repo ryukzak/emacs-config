@@ -127,6 +127,7 @@
   (save-some-buffers 1)
   (+ivy/project-compile))
 
+(setq compilation-window-height nil)
 (setq compilation-scroll-output t)
 
 (when (eq system-type 'gnu/linux)
@@ -137,12 +138,21 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-o") 'counsel-buffer-or-recentf)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-x C-f") 'ergoemacs-find-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-`") 'magit)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-a") 'eshell)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-b") 'counsel-switch-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'save-all-and-recompile)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") 'swiper)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-f") '+default/search-project)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-'") 'comment-line)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M->") 'lsp-find-references)
+
+  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-]") 'paredit-forward-slurp-sexp)
+  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-]") 'paredit-forward-barf-sexp)
+
+  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-[") 'paredit-backward-slurp-sexp)
+  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-[") 'paredit-backward-barf-sexp)
+
   (defun clean-term-artifacts ()
     "e.g. arrow keys, super mod"
     (interactive)
@@ -152,6 +162,10 @@
     (while (re-search-backward "^[ABCD]$" nil t)
       (delete-char 1))
     (replace-regexp-in-region "[[:digit:]]*;[[:digit:]]u" "" (line-beginning-position)
-                              (line-end-position)))
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "<f7>") 'clean-term-artifacts)
+                              (line-end-position))
+    (message "term artifacts cleaned"))
+
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-p") 'clean-term-artifacts)
+  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "<f8>") 'clean-term-artifacts)
+
   (xterm-mouse-mode))

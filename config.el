@@ -28,7 +28,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'tsdh-dark)
 (setq doom-modeline-icon nil)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -109,27 +109,33 @@
 (use-package ormolu
   :hook (haskell-mode . ormolu-format-on-save-mode)
   :config (setq ormolu-process-path "fourmolu"
-                ormolu-cabal-default-extensions 't)
+                ormolu-extra-args '("-o" "-XTypeApplications" "-o" "-XImportQualifiedPost")
+                ormolu-cabal-default-extensions nil
+                )
   :bind (:map haskell-mode-map
          ("<f1>" . hoogle)
          ("C-c r" . ormolu-format-buffer)))
 
 (use-package lsp-haskell
   :ensure t
-  :config (setq lsp-haskell-server-path
-                "haskell-language-server"
-                lsp-log-io t
+  :config (setq lsp-haskell-server-path "haskell-language-server"
+                ;; lsp-log-io t
                 lsp-file-watch-threshold 2500
                 lsp-haskell-formatting-provider "fourmolu"
+                lsp-headerline-breadcrumb-enable nil
+                lsp-signature-auto-activate 't
+                lsp-signature-doc-lines 't
                 lsp-document-sync-method 'full))
 
 (defun rk-haskell-mode-hook ()
   (push "[/\\\\]gen/" lsp-file-watch-ignored)
   ;; (setq haskell-process-path-ghci "stack exec -- ghci")
-  (setq haskell-indentation-layout-offset 4 haskell-indentation-left-offset 4
-        haskell-indentation-starter-offset 4 haskell-indentation-where-post-offset 4
-        haskell-indentation-where-pre-offset 4 haskell-stylish-on-save nil))
+  (display-fill-column-indicator-mode 't)
+  ;; (enable-paredit-mode)
+  )
+
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
+
 (defun rk-inferior-haskell-mode-hook ()
   (setq compilation-first-column 1)
   (setq compilation-error-regexp-alist (cons `("^\\(.+?\\):\\([0-9]+\\):\\(\\([0-9]+\\):\\)?\\( \\|\n *\\)\\(Warning\\)?"
@@ -137,8 +143,6 @@
                                                            '((6)
                                                              nil)))
                                              (cdr (cdr inferior-haskell-error-regexp-alist)))))
-
-(add-hook 'inferior-haskell-mode-hook 'rk-inferior-haskell-mode-hook)
 
 
 (use-package dhall-mode
@@ -225,3 +229,16 @@
 
 (use-package lsp-docker
   :ensure t)
+
+(use-package treemacs
+  :ensure t
+  :config (progn
+            (treemacs-load-theme "all-the-icons")
+            (setq treemacs-width 35
+                  doom-themes-treemacs-theme "doom-colors"
+                  treemacs-no-png-images 't
+                  treemacs-indentation 1
+                  treemacs-collapse-dirs 2)
+            (treemacs-indent-guide-mode 't)
+            (treemacs-follow-mode 't)
+            (treemacs-hide-gitignored-files-mode 't)))
