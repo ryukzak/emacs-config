@@ -5,46 +5,63 @@
 
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
-(setq user-full-name "Aleksandr Penskoi" user-mail-address "aleksandr.penskoi@gmail.com")
+;; clients, file templates and snippets. It is optional.
+(setq user-full-name "Aleksandr Penskoi"
+      user-mail-address "aleksandr.penskoi@gmail.com")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
+;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;; - `doom-font' -- the primary font to use
+;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
+;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-;; (setq doom-font (font-spec :family "Hasklig" :size 13))
-(setq doom-font (font-spec :family "Fira Code"
-                           :size 13))
-(setq all-the-icons-scale-factor 1)
+;; See 'C-h v doom-font' for documentation and more examples of what they
+;; accept. For example:
+;;
+;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+;;
+;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
+;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
+;; refresh your font settings. If Emacs still can't find your font, it likely
+;; wasn't installed correctly. Font issues are rarely Doom issues!
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'tsdh-dark)
-(setq doom-modeline-icon nil)
+(setq doom-theme 'doom-monokai-spectrum)
+(setq doom-font (font-spec :family "Fira Code"
+                           :size 10))
+(setq all-the-icons-scale-factor 1)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Documents/org/")
-(setq org-indirect-buffer-display 'other-window)
+(setq warning-minimum-level :error)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-(setq shell-file-name "bash")
-(setenv "SHELL" shell-file-name)
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
 
 
-;; Here are some additional functions/macros that could help you configure Doom:
+;; Whenever you reconfigure a package, make sure to wrap your config in an
+;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;;
+;;   (after! PACKAGE
+;;     (setq x y))
+;;
+;; The exceptions to this rule:
+;;
+;;   - Setting file/directory variables (like `org-directory')
+;;   - Setting variables which explicitly tell you to set them before their
+;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+;;   - Setting doom variables (which start with 'doom-' or '+').
+;;
+;; Here are some additional functions/macros that will help you configure Doom.
 ;;
 ;; - `load!' for loading external *.el files relative to this one
 ;; - `use-package!' for configuring packages
@@ -57,6 +74,8 @@
 ;; To get information about any of these functions/macros, move the cursor over
 ;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
 ;; This will open documentation for it, including demos of how they are used.
+;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
+;; etc).
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
@@ -66,6 +85,7 @@
 
 (load! "misc.el")
 (load! "kbd.el")
+
 
 ;; Autosave all buffers on focus lost
 (defadvice switch-to-buffer (before save-buffer-now activate)
@@ -81,28 +101,33 @@
 (setq dired-omit-files (string-join '("^.DS_Store$" "^.git$" "^\\.$" "^dist-newstyle$") "\\|"))
 
 ;; autocomplete
-(setq company-idle-delay 0.2 company-minimum-prefix-length 3)
-
-(setenv "PATH" (concat "/Users/penskoi/.local/bin:/usr/local/bin:" (getenv "PATH")))
-(add-to-list 'exec-path "/Users/penskoi/.local/bin")
-(add-to-list 'exec-path "/usr/local/bin")
-
+(let ((home (getenv "HOME")))
+  (setenv "PATH" (concat
+                  home "/.ghcup/bin:"
+                  home "/.local/bin:"
+                  "/usr/local/bin:"
+                  (getenv "PATH")))
+  (add-to-list 'exec-path "/usr/local/bin")
+  (add-to-list 'exec-path (concat home "/.local/bin"))
+  (add-to-list 'exec-path (concat home "/.ghcup/bin")))
 
 ;; Spells
 (use-package! guess-language
   :ensure t
   :defer t
   :init (add-hook 'text-mode-hook #'guess-language-mode)
-  :config (setq guess-language-languages '(en ru) guess-language-langcodes '((en . ("en_US"
-                                                                                    "English"))
-                                                                             (ru . ("ru-yeyo"
-                                                                                    "Russian")))))
+  :config (setq guess-language-languages '(en ru)
+                guess-language-langcodes '((en . ("en_US"
+                                                  "English"))
+                                           (ru . ("ru-yeyo"
+                                                  "Russian")))))
 
-(add-hook 'text-mode-hook #'flyspell-mode)
+;; (add-hook 'text-mode-hook #'flyspell-mode)
 
-(use-package flyspell-correct-ivy
-  :bind ("C-M-;" . flyspell-correct-wrapper)
-  :init (setq flyspell-correct-interface #'flyspell-correct-ivy))
+
+;; (use-package flyspell-correct-ivy
+;;   :bind ("C-M-;" . flyspell-correct-wrapper)
+;;   :init (setq flyspell-correct-interface #'flyspell-correct-ivy))
 
 
 ;; Haskell
@@ -118,14 +143,8 @@
 
 (use-package lsp-haskell
   :ensure t
-  :config (setq lsp-haskell-server-path "haskell-language-server"
-                ;; lsp-log-io t
-                lsp-file-watch-threshold 2500
-                lsp-haskell-formatting-provider "fourmolu"
-                lsp-headerline-breadcrumb-enable nil
-                lsp-signature-auto-activate 't
-                lsp-signature-doc-lines 't
-                lsp-document-sync-method 'full))
+  :config (setq lsp-haskell-server-path "haskell-language-server-wrapper"
+                lsp-haskell-formatting-provider "fourmolu"))
 
 (defun rk-haskell-mode-hook ()
   (push "[/\\\\]gen/" lsp-file-watch-ignored)
@@ -136,6 +155,8 @@
 
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
 
+
+
 (defun rk-inferior-haskell-mode-hook ()
   (setq compilation-first-column 1)
   (setq compilation-error-regexp-alist (cons `("^\\(.+?\\):\\([0-9]+\\):\\(\\([0-9]+\\):\\)?\\( \\|\n *\\)\\(Warning\\)?"
@@ -145,33 +166,35 @@
                                              (cdr (cdr inferior-haskell-error-regexp-alist)))))
 
 
-(use-package dhall-mode
-  :ensure t
-  :mode "\\.dhall\\'")
+;; (use-package dhall-mode
+;;   :ensure t
+;;   :mode "\\.dhall\\'")
 
 ;; Javascript
-(use-package web-mode
-  :ensure t
-  :mode   (("\\.html?\\'" . web-mode)
-           ("\\.css\\'"   . web-mode)
-           ("\\.jsx\\'"  . web-mode)
-           ("\\.tsx\\'"  . web-mode)
-           ("\\.json\\'"  . web-mode))
-  :init (progn
-          (defun rk-web-mode-hook ()
-            (setq-default web-mode-comment-formats (remove '("javascript" . "/*")
-                                                           web-mode-comment-formats))
-            (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
-            (add-to-list 'web-mode-comment-formats '("tsx" . "//")))
-          (add-hook 'web-mode-hook 'rk-web-mode-hook)))
+;; (use-package web-mode
+;;   :ensure t
+;;   :mode   (("\\.html?\\'" . web-mode)
+;;            ("\\.css\\'"   . web-mode)
+;;            ("\\.jsx\\'"  . web-mode)
+;;            ("\\.tsx\\'"  . web-mode)
+;;            ("\\.json\\'"  . web-mode))
+;;   :init (progn
+;;           (defun rk-web-mode-hook ()
+;;             (setq-default web-mode-comment-formats (remove '("javascript" . "/*")
+;;                                                            web-mode-comment-formats))
+;;             (setq-default web-mode-comment-formats (remove '("tsx" . "/*")
+;;                                                            web-mode-comment-formats))
+;;             (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
+;;             (add-to-list 'web-mode-comment-formats '("tsx" . "//")))
+;;           (add-hook 'web-mode-hook 'rk-web-mode-hook)))
 
-(use-package prettier-js
-  :ensure t
-  :init (progn (add-hook 'web-mode-hook 'prettier-js-mode)))
+;; (use-package prettier-js
+;;   :ensure t
+;;   :init (progn (add-hook 'web-mode-hook 'prettier-js-mode)))
 
-(use-package editorconfig
-  :ensure t
-  :config (editorconfig-mode 1))
+;; (use-package editorconfig
+;;   :ensure t
+;;   :config (editorconfig-mode 1))
 
 (defun rk-markdown-mode-hook ()
   (local-set-key (kbd "s-1") 'markdown-insert-header-atx-1)
@@ -182,10 +205,12 @@
 
 (use-package markdown-mode
   :ensure t
-  :config (add-hook 'markdown-mode-hook 'rk-markdown-mode-hook))
+  :config (progn
+            (add-hook 'markdown-mode-hook 'rk-markdown-mode-hook)
+            (add-hook 'markdown-mode-hook 'delete-trailing-whitespace)))
 
-(use-package! ox-leanpub
-  :after org)
+;; (use-package! ox-leanpub
+;;   :after org)
 
 ;; Verilog
 (use-package verilog-mode
@@ -198,24 +223,32 @@
                 verilog-indent-level-declaration 4 verilog-indent-level-behavioral  4
                 verilog-indent-level-directive 4)))
 
+
+;(use-package! python-black
+;  :demand t
+;  :after python
+;  :config (setq python-black-command "black"))
+;(add-hook! 'python-mode-hook #'python-black-on-save-mode)
+
+
 ;; org-mode
-(defun rk-org-mode-hook ()
-  (auto-fill-mode 0)
-  (visual-line-mode t)
-  (require 'ob-python)
-  (org-babel-do-load-languages 'org-babel-load-languages '((python . t)
-                                                           (forth . t)
-                                                           (emacs-lisp . t)))
-  (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer)
-  (local-set-key (kbd "s-9") 'org-publish-all)
-  (local-set-key (kbd "C-q") 'org-unfill-paragraph))
+;; (defun rk-org-mode-hook ()
+;;   (auto-fill-mode 0)
+;;   (visual-line-mode t)
+;;   (require 'ob-python)
+;;   (org-babel-do-load-languages 'org-babel-load-languages '((python . t)
+;;                                                            (forth . t)
+;;                                                            (emacs-lisp . t)))
+;;   (local-set-key (kbd "s-0") 'org-tree-to-indirect-buffer)
+;;   (local-set-key (kbd "s-9") 'org-publish-all)
+;;   (local-set-key (kbd "C-q") 'org-unfill-paragraph))
 
-(add-hook 'org-mode-hook 'rk-org-mode-hook)
+;; (add-hook 'org-mode-hook 'rk-org-mode-hook)
 
-(use-package ox-reveal
-  :ensure t
-  :init (progn
-          (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")))
+;; (use-package ox-reveal
+;;   :ensure t
+;;   :init (progn
+;;           (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")))
 
 (defun save-and-cider-eval-buffer ()
   (interactive)
@@ -224,11 +257,13 @@
 
 (use-package cider
   :ensure t
+  :config (progn
+            (cider-auto-test-mode 't))
   :bind (("<f12>" . cider-format-buffer)
          ("C-c l l" . save-and-cider-eval-buffer)))
 
-(use-package lsp-docker
-  :ensure t)
+;; (use-package lsp-docker
+;;   :ensure t)
 
 (use-package treemacs
   :ensure t
@@ -242,3 +277,15 @@
             (treemacs-indent-guide-mode 't)
             (treemacs-follow-mode 't)
             (treemacs-hide-gitignored-files-mode 't)))
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
+         ("C-<tab>" . 'copilot-accept-completion-by-word)
+         :map copilot-completion-map
+         ("<tab>" . 'copilot-accept-completion)
+         ("TAB" . 'copilot-accept-completion)))
+
+
+(add-to-list 'auto-mode-alist '("\\.hurl\\'" . http-mode))

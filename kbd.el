@@ -1,6 +1,5 @@
 ;;; ~/.doom.d/kbd.el -*- lexical-binding: t; -*-
 
-
 ;; Hotkeys on russian layout
 (defun reverse-input-method (input-method)
   "Build the reverse mapping of single letters from INPUT-METHOD."
@@ -47,7 +46,7 @@
 (global-set-key (kbd "<f12>") 'my-workspace)
 
 (global-unset-key (kbd "M-<down-mouse-1>"))
-(global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click)
+;; (global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click)
 (global-set-key (kbd "s-D") 'mc/mark-next-like-this)
 
 ;; Hotkeys
@@ -106,7 +105,7 @@
 (global-set-key (kbd "s-J") 'beginning-of-buffer)
 (global-set-key (kbd "s-L") 'end-of-buffer)
 
-(global-set-key (kbd "s-s") 'swiper)
+(global-set-key (kbd "s-s") '+default/search-buffer)
 (global-set-key (kbd "C-s") 'counsel-projectile-ag)
 (global-set-key (kbd "s-n") 'find-file)
 
@@ -119,39 +118,47 @@
 
 (defun save-all-and-recompile ()
   (interactive)
-  (run-at-time nil nil #'ivy-done)
   (save-all-and-compile))
 
 (defun save-all-and-compile ()
   (interactive)
   (save-some-buffers 1)
-  (+ivy/project-compile))
+  (call-interactively #'projectile-compile-project))
 
 (setq compilation-window-height nil)
 (setq compilation-scroll-output t)
 
-(when (eq system-type 'gnu/linux)
+
+(when (eq system-type 'darwin)
+  (setq mac-option-modifier 'meta)
+  (setq mac-right-option-modifier 'meta))
+
+(when (or 't (eq system-type 'gnu/linux))
   (setq ergoemacs-theme nil)
   (setq ergoemacs-keyboard-layout "us")
   (ergoemacs-mode 1)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'counsel-projectile-find-file)
+
+  (defun kbd-C-o ()
+    (interactive)
+    (+vertico/find-file-in (projectile-project-root)))
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'kbd-C-o)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-o") 'counsel-buffer-or-recentf)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-x C-f") 'ergoemacs-find-file)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-`") 'magit)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-`") 'run-smerge)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-a") 'eshell)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-b") 'counsel-switch-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-b") '+vertico/switch-workspace-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'save-all-and-recompile)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") 'swiper)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") '+default/search-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-f") '+default/search-project)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-'") 'comment-line)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M->") 'lsp-find-references)
 
-  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-]") 'paredit-forward-slurp-sexp)
-  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-]") 'paredit-forward-barf-sexp)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-]") 'paredit-forward-slurp-sexp)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-}") 'paredit-forward-barf-sexp)
 
-  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-[") 'paredit-backward-slurp-sexp)
-  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-[") 'paredit-backward-barf-sexp)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-[") 'paredit-backward-slurp-sexp)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-{") 'paredit-backward-barf-sexp)
 
   (defun clean-term-artifacts ()
     "e.g. arrow keys, super mod"

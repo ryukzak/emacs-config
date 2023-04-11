@@ -1,23 +1,14 @@
 # emacs-conf
 
-## Emacs on Mac OS
 ```sh
 brew tap d12frosted/emacs-plus
-brew install emacs-plus@28 --with-cacodemon-icon
+brew install emacs-plus@28 --with-native-comp --with-cacodemon-icon --with-no-titlebar-and-round-corners
 ln -s /usr/local/opt/emacs-plus@28/Emacs.app /Applications/Emacs.app
-```
-
-## Doom emacs
-```sh
-brew install ripgrep # coreutils git fd clang
-git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
-~/.emacs.d/bin/doom install
-```
-
-## Install my config
-```sh
-git clone git@github.com:ryukzak/emacs-config.git ~/.doom.d
-~/.emacs.d/bin/doom sync
+brew install ripgrep
+git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+fish_add_path ~/.config/emacs/bin
+git clone git@github.com:ryukzak/emacs-config.git ~/.config/doom
+doom sync
 ```
 
 ## Dependency
@@ -51,4 +42,3 @@ npm install --global tern prettier
 ```
 brew install ripgrep
 ```
-
