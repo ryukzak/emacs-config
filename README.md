@@ -17,6 +17,7 @@ doom sync
 https://github.com/i-tu/Hasklig
 
 ### Spellcheck
+
 ``` console
 > brew install ispell # for checking
 > brew install aspell # for dictionary

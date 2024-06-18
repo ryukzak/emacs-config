@@ -47,46 +47,49 @@
 
 (global-unset-key (kbd "M-<down-mouse-1>"))
 ;; (global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click)
-(global-set-key (kbd "s-D") 'mc/mark-next-like-this)
+;; (global-set-key (kbd "s-D") 'mc/mark-next-like-this)
 
 ;; Hotkeys
 ;; (global-set-key (kbd "C-y") 'counsel-projectile-find-file)
 ;; (global-set-key (kbd "C-Y") 'counsel-projectile-switch-project)
 ;; (global-set-key (kbd "C-c e") 'counsel-recentf)
-(global-set-key (kbd "s-w") 'kill-this-buffer)
-
-(global-set-key (kbd "s-i") 'previous-line)
-(global-set-key (kbd "s-k") 'next-line)
-(global-set-key (kbd "s-j") 'backward-char)
-(global-set-key (kbd "s-l") 'forward-char)
-
-(global-set-key (kbd "s-K") 'scroll-up-command)
-(global-set-key (kbd "s-I") 'scroll-down-command)
-(global-set-key (kbd "s-h") 'move-beginning-of-line)
-(global-set-key (kbd "s-H") 'move-end-of-line)
-
-(global-set-key (kbd "s-u") 'backward-word)
-(global-set-key (kbd "s-o") 'forward-word)
-(global-set-key (kbd "s-U") 'backward-paragraph)
-(global-set-key (kbd "s-O") 'forward-paragraph)
-
-(global-set-key (kbd "s-p") 'recenter)
-(global-set-key (kbd "s-P") 'counsel-git)
-(global-set-key (kbd "C-~") 'shell)
-;; (global-set-key (kbd "s-d") 'mc/mark-next-like-this)
 
 
-(global-set-key (kbd "s-e") 'backward-kill-word)
-(global-set-key (kbd "s-r") 'kill-word)
-(global-set-key (kbd "s-d") 'delete-backward-char)
-(global-set-key (kbd "s-f") 'delete-forward-char)
-(global-set-key (kbd "s-F") 'counsel-projectile-rg)
+;; Super key duplicate
+;; (global-set-key (kbd "s-w") 'kill-this-buffer)
 
-(global-set-key (kbd "s-0") 'paredit-forward-slurp-sexp)
-(global-set-key (kbd "s-)") 'paredit-forward-barf-sexp)
+;; (global-set-key (kbd "s-i") 'previous-line)
+;; (global-set-key (kbd "s-k") 'next-line)
+;; (global-set-key (kbd "s-j") 'backward-char)
+;; (global-set-key (kbd "s-l") 'forward-char)
 
-(global-set-key (kbd "s-9") 'paredit-backward-slurp-sexp)
-(global-set-key (kbd "s-(") 'paredit-backward-barf-sexp)
+;; (global-set-key (kbd "s-K") 'scroll-up-command)
+;; (global-set-key (kbd "s-I") 'scroll-down-command)
+;; (global-set-key (kbd "s-h") 'move-beginning-of-line)
+;; (global-set-key (kbd "s-H") 'move-end-of-line)
+
+;; (global-set-key (kbd "s-u") 'backward-word)
+;; (global-set-key (kbd "s-o") 'forward-word)
+;; (global-set-key (kbd "s-U") 'backward-paragraph)
+;; (global-set-key (kbd "s-O") 'forward-paragraph)
+
+;; (global-set-key (kbd "s-p") 'recenter)
+;; (global-set-key (kbd "s-P") 'counsel-git)
+;; (global-set-key (kbd "C-~") 'shell)
+;; ;; (global-set-key (kbd "s-d") 'mc/mark-next-like-this)
+
+
+;; (global-set-key (kbd "s-e") 'backward-kill-word)
+;; (global-set-key (kbd "s-r") 'kill-word)
+;; (global-set-key (kbd "s-d") 'delete-backward-char)
+;; (global-set-key (kbd "s-f") 'delete-forward-char)
+;; (global-set-key (kbd "s-F") 'rg-dwim)
+
+;; (global-set-key (kbd "s-0") 'paredit-forward-slurp-sexp)
+;; (global-set-key (kbd "s-)") 'paredit-forward-barf-sexp)
+
+;; (global-set-key (kbd "s-9") 'paredit-backward-slurp-sexp)
+;; (global-set-key (kbd "s-(") 'paredit-backward-barf-sexp)
 
 (defun run-smerge ()
   (interactive)
@@ -99,20 +102,20 @@
   (interactive "p")
   (kill-line (- 1 arg)))
 
-(global-set-key (kbd "s-g") 'kill-line)
-(global-set-key (kbd "s-G") 'backward-kill-line)
+;; (global-set-key (kbd "s-g") 'kill-line)
+;; (global-set-key (kbd "s-G") 'backward-kill-line)
 
-(global-set-key (kbd "s-J") 'beginning-of-buffer)
-(global-set-key (kbd "s-L") 'end-of-buffer)
+;; (global-set-key (kbd "s-J") 'beginning-of-buffer)
+;; (global-set-key (kbd "s-L") 'end-of-buffer)
 
-(global-set-key (kbd "s-s") '+default/search-buffer)
-(global-set-key (kbd "C-s") 'counsel-projectile-ag)
-(global-set-key (kbd "s-n") 'find-file)
+;; (global-set-key (kbd "s-s") '+default/search-buffer)
+;; (global-set-key (kbd "C-s") 'counsel-projectile-ag)
+;; (global-set-key (kbd "s-n") 'find-file)
 
-(global-set-key (kbd "s-x") 'kill-region)
-(global-set-key (kbd "s-z") 'undo)
-(global-set-key (kbd "s-Z") 'redo)
-(global-set-key (kbd "S-SPC") 'set-mark-command)
+;; (global-set-key (kbd "s-x") 'kill-region)
+;; (global-set-key (kbd "s-z") 'undo)
+;; (global-set-key (kbd "s-Z") 'redo)
+;; (global-set-key (kbd "S-SPC") 'set-mark-command)
 
 (setq projectile-sort-order 'recentf)
 
@@ -128,31 +131,39 @@
 (setq compilation-window-height nil)
 (setq compilation-scroll-output t)
 
-
 (when (eq system-type 'darwin)
   (setq mac-option-modifier 'meta)
   (setq mac-right-option-modifier 'meta))
+
+(paredit-mode 1)
 
 (when (or 't (eq system-type 'gnu/linux))
   (setq ergoemacs-theme nil)
   (setq ergoemacs-keyboard-layout "us")
   (ergoemacs-mode 1)
 
-  (defun kbd-C-o ()
-    (interactive)
-    (+vertico/find-file-in (projectile-project-root)))
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'kbd-C-o)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-o") 'counsel-buffer-or-recentf)
+  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'consult-find)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'projectile-find-file-dwim)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-o") 'consult-recent-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-x C-f") 'ergoemacs-find-file)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-`") 'run-smerge)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-~") 'run-smerge)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-`") 'magit-status)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-<escape> M-<escape>") 'run-smerge)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-a") 'eshell)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-b") '+vertico/switch-workspace-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-B") 'ido-switch-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'save-all-and-recompile)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
+  ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'cider-reload-all)
+
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") '+default/search-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-F") 'rg-dwim)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-f") '+default/search-project)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-'") 'comment-line)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M->") 'lsp-find-references)
+
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-J") 'paredit-backward)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-L") 'paredit-forward)
 
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-]") 'paredit-forward-slurp-sexp)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-}") 'paredit-forward-barf-sexp)

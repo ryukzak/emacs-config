@@ -53,7 +53,8 @@
 ;(package! lsp-haskell)
 
 (package! prettier-js)
-;(package! editorconfig)
+(package! python-black)
+;; (package! editorconfig)
 
 (package! guess-language)
 ;(package! flyspell-correct-ivy)
@@ -68,7 +69,13 @@
 (package! http)
 ;(package! elisp-format)
 ;(package! lsp-treemacs)
+
 (package! cyberpunk-theme)
+(package! ormolu)
+(package! zprint-format)
+
+(package! nerd-icons)
+(package! treemacs-nerd-icons)
 
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))

@@ -32,10 +32,17 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-monokai-spectrum)
-(setq doom-font (font-spec :family "Fira Code"
-                           :size 10))
+(setq doom-theme 'doom-peacock)
+(setq doom-font (font-spec :family "FiraCode Nerd Font"
+                           :size 11))
 (setq all-the-icons-scale-factor 1)
+
+(setq centaur-tabs-height 10)
+(setq centaur-tabs-set-bar 'left)
+
+(setq centaur-tabs-plain-icons t)
+;; (setq x-underline-at-descent-line t)
+
 
 (setq warning-minimum-level :error)
 
@@ -87,6 +94,8 @@
 (load! "kbd.el")
 
 
+(add-to-list 'default-frame-alist '(undecorated-round . t))
+
 ;; Autosave all buffers on focus lost
 (defadvice switch-to-buffer (before save-buffer-now activate)
   (when buffer-file-name (save-buffer)))
@@ -98,7 +107,19 @@
 
 (add-hook 'focus-out-hook 'save-all)
 
-(setq dired-omit-files (string-join '("^.DS_Store$" "^.git$" "^\\.$" "^dist-newstyle$") "\\|"))
+(setq dired-omit-files
+      (string-join '("^.stack-work$"
+                     "\\.hie$"
+                     "^.DS_Store$"
+                     "^.git$"
+                     "^\\.$"
+                     "\\.prof$"
+                     "\\.tix$"
+                     "^.mypy_cache$"
+                     "^.pytest_cache$"
+                     "^.coverage$"
+                     "^dist-newstyle$")
+                   "\\|"))
 
 ;; autocomplete
 (let ((home (getenv "HOME")))
@@ -106,8 +127,11 @@
                   home "/.ghcup/bin:"
                   home "/.local/bin:"
                   "/usr/local/bin:"
+                  home "/Library/Python/3.9/bin:"
                   (getenv "PATH")))
+  (add-to-list 'exec-path (concat home "/Library/Python/3.9/bin"))
   (add-to-list 'exec-path "/usr/local/bin")
+  (add-to-list 'exec-path "/opt/homebrew/bin")
   (add-to-list 'exec-path (concat home "/.local/bin"))
   (add-to-list 'exec-path (concat home "/.ghcup/bin")))
 
@@ -122,7 +146,7 @@
                                            (ru . ("ru-yeyo"
                                                   "Russian")))))
 
-;; (add-hook 'text-mode-hook #'flyspell-mode)
+(add-hook 'text-mode-hook #'flyspell-mode)
 
 
 ;; (use-package flyspell-correct-ivy
@@ -138,12 +162,15 @@
                 ormolu-cabal-default-extensions nil
                 )
   :bind (:map haskell-mode-map
-         ("<f1>" . hoogle)
-         ("C-c r" . ormolu-format-buffer)))
+              ("<f1>" . hoogle)
+              ("C-c r" . ormolu-format-buffer)))
 
 (use-package lsp-haskell
   :ensure t
   :config (setq lsp-haskell-server-path "haskell-language-server-wrapper"
+                lsp-lens-enable nil
+                lsp-ui-sideline-enable 't
+                lsp-ui-sideline-show-code-actions 't
                 lsp-haskell-formatting-provider "fourmolu"))
 
 (defun rk-haskell-mode-hook ()
@@ -169,32 +196,68 @@
 ;; (use-package dhall-mode
 ;;   :ensure t
 ;;   :mode "\\.dhall\\'")
+(setq fill-column 120)
 
-;; Javascript
-;; (use-package web-mode
-;;   :ensure t
-;;   :mode   (("\\.html?\\'" . web-mode)
-;;            ("\\.css\\'"   . web-mode)
-;;            ("\\.jsx\\'"  . web-mode)
-;;            ("\\.tsx\\'"  . web-mode)
-;;            ("\\.json\\'"  . web-mode))
-;;   :init (progn
-;;           (defun rk-web-mode-hook ()
-;;             (setq-default web-mode-comment-formats (remove '("javascript" . "/*")
-;;                                                            web-mode-comment-formats))
-;;             (setq-default web-mode-comment-formats (remove '("tsx" . "/*")
-;;                                                            web-mode-comment-formats))
-;;             (add-to-list 'web-mode-comment-formats '("javascript" . "//"))
-;;             (add-to-list 'web-mode-comment-formats '("tsx" . "//")))
-;;           (add-hook 'web-mode-hook 'rk-web-mode-hook)))
 
-;; (use-package prettier-js
-;;   :ensure t
-;;   :init (progn (add-hook 'web-mode-hook 'prettier-js-mode)))
+;; Formatting
 
-;; (use-package editorconfig
-;;   :ensure t
-;;   :config (editorconfig-mode 1))
+;; (setq format-all-formatters
+;;       '(("Shell" (shfmt "-i" "4" "-ci"))))
+
+(setq-hook! 'web-mode-hook +format-with-lsp nil)
+
+;; Clojure
+
+(setq-hook! 'clojure-mode-hook +format-with-lsp nil)
+
+(use-package! zprint-format
+  :demand t
+  :after zprint-format
+  :config (progn
+            (setq zprint-format-arguments '("{:search-config? true}" "-w"))            ))
+
+(defun cider-user-reload ()
+  (interactive)
+  (cider-interactive-eval "(user/reload)"
+                          nil
+                          nil
+                          (cider--nrepl-pr-request-map)))
+
+(defun my-clojure-mode-hook ()
+  (local-set-key (kbd "C-b") 'cider-user-reload))
+
+(use-package! clojure-mode
+  :config (progn
+            (setq clojure--prettify-symbols-alist nil)
+            (remove-hook 'clojure-mode-hook 'prettify-symbols-mode)
+            (add-hook 'clojure-mode-hook 'zprint-format-on-save-mode)
+            (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)))
+
+;; (zprint-format-on-save-mode t)
+
+
+;; (setq-hook! 'clojure-mode-hook +format-with 'zprint)
+
+;; (setq-hook! 'typescript-mode-hook +format-all nil)
+;; (setq-hook! 'web-mode-hook +format-with 'prettier)
+
+;; (use-package! prettier-js
+;;  :ensure t
+;;  :after typescript-mode
+;;  :config (add-hook 'typescript-mode-hook 'prettier-js-mode))
+
+
+(setq-hook! 'python-mode-hook +format-with-lsp nil)
+(setq-hook! 'python-mode-hook +format-all-mode nil)
+(setq-hook! 'python-mode-hook +format-with nil)
+                                        ;(add-hook! 'python-mode-hook #'python-black-on-save-mode)
+
+
+(use-package! python-black
+  :demand t
+  :after python
+  :config (setq python-black-command "pipenv run black"))
+
 
 (defun rk-markdown-mode-hook ()
   (local-set-key (kbd "s-1") 'markdown-insert-header-atx-1)
@@ -206,6 +269,8 @@
 (use-package markdown-mode
   :ensure t
   :config (progn
+            (setq-hook! 'markdown-mode-hook +format-with :none)
+            (setq flycheck-markdown-markdownlint-cli-config ".markdownlint.json")
             (add-hook 'markdown-mode-hook 'rk-markdown-mode-hook)
             (add-hook 'markdown-mode-hook 'delete-trailing-whitespace)))
 
@@ -224,12 +289,7 @@
                 verilog-indent-level-directive 4)))
 
 
-;(use-package! python-black
-;  :demand t
-;  :after python
-;  :config (setq python-black-command "black"))
-;(add-hook! 'python-mode-hook #'python-black-on-save-mode)
-
+(global-so-long-mode 0)
 
 ;; org-mode
 ;; (defun rk-org-mode-hook ()
@@ -258,6 +318,7 @@
 (use-package cider
   :ensure t
   :config (progn
+            (setq cider-stacktrace-default-filters '(project))
             (cider-auto-test-mode 't))
   :bind (("<f12>" . cider-format-buffer)
          ("C-c l l" . save-and-cider-eval-buffer)))
@@ -268,15 +329,18 @@
 (use-package treemacs
   :ensure t
   :config (progn
-            (treemacs-load-theme "all-the-icons")
-            (setq treemacs-width 35
-                  doom-themes-treemacs-theme "doom-colors"
-                  treemacs-no-png-images 't
-                  treemacs-indentation 1
-                  treemacs-collapse-dirs 2)
-            (treemacs-indent-guide-mode 't)
-            (treemacs-follow-mode 't)
-            (treemacs-hide-gitignored-files-mode 't)))
+            (setq treemacs-indentation 1
+                  treemacs-collapse-dirs 1
+                  treemacs-silent-refresh t)
+            (treemacs-follow-mode t)
+            (treemacs-hide-gitignored-files-mode t)
+            (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)))
+
+(use-package treemacs-nerd-icons
+  :after treemacs
+  :config
+  (treemacs-load-theme "nerd-icons"))
+
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
@@ -287,5 +351,10 @@
          ("<tab>" . 'copilot-accept-completion)
          ("TAB" . 'copilot-accept-completion)))
 
-
 (add-to-list 'auto-mode-alist '("\\.hurl\\'" . http-mode))
+
+
+(use-package magit-todos
+  :after magit
+  :config (magit-todos-mode 1))
+
