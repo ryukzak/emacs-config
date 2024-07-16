@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-peacock)
+(setq doom-theme 'doom-dracula)
 (setq doom-font (font-spec :family "FiraCode Nerd Font"
                            :size 11))
 (setq all-the-icons-scale-factor 1)
@@ -89,6 +89,10 @@
 
 (package-initialize)
 (add-to-list 'load-path "/Users/penskoi/.local/bin")
+(add-to-list 'load-path "~/.ghcup/bin")
+(add-to-list 'load-path "/opt/homebrew/bin")
+
+(setq! jka-compr-shell "fish")
 
 (load! "misc.el")
 (load! "kbd.el")
@@ -208,20 +212,25 @@
 
 ;; Clojure
 
-(setq-hook! 'clojure-mode-hook +format-with-lsp nil)
+;; (setq-hook! 'clojure-mode-hook +format-with-lsp nil)
 
-(use-package! zprint-format
-  :demand t
-  :after zprint-format
-  :config (progn
-            (setq zprint-format-arguments '("{:search-config? true}" "-w"))            ))
+;; (use-package! zprint-format
+;;   :demand t
+;;   :after zprint-format
+;;   :config (progn
+;;             (setq zprint-format-arguments '("{:search-config? true}" "-w"))            ))
 
 (defun cider-user-reload ()
   (interactive)
-  (cider-interactive-eval "(user/reload)"
-                          nil
-                          nil
-                          (cider--nrepl-pr-request-map)))
+  (if (cider-connected-p)
+      (progn
+        (message "Save & Reload...")
+        (save-some-buffers 1)
+        (cider-interactive-eval "(user/reload)"
+                                nil
+                                nil
+                                (cider--nrepl-pr-request-map)))
+    (message "Not connected to a Clojure REPL")))
 
 (defun my-clojure-mode-hook ()
   (local-set-key (kbd "C-b") 'cider-user-reload))
@@ -230,11 +239,10 @@
   :config (progn
             (setq clojure--prettify-symbols-alist nil)
             (remove-hook 'clojure-mode-hook 'prettify-symbols-mode)
-            (add-hook 'clojure-mode-hook 'zprint-format-on-save-mode)
+            ;; (add-hook 'clojure-mode-hook 'zprint-format-on-save-mode)
             (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)))
 
 ;; (zprint-format-on-save-mode t)
-
 
 ;; (setq-hook! 'clojure-mode-hook +format-with 'zprint)
 
@@ -358,3 +366,13 @@
   :after magit
   :config (magit-todos-mode 1))
 
+(use-package vertico-posframe
+  :init (vertico-posframe-mode 1)
+  :config (setq vertico-posframe-poshandler #'posframe-poshandler-frame-top-center))
+
+
+(setq initial-frame-alist
+      '((width . 160)  
+        (height . 60)
+        (left . 50)
+        (top . 80)))

@@ -143,7 +143,7 @@
   (ergoemacs-mode 1)
 
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'consult-find)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'projectile-find-file-dwim)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'projectile-find-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-o") 'consult-recent-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-x C-f") 'ergoemacs-find-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-~") 'run-smerge)
@@ -154,7 +154,7 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-B") 'ido-switch-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'save-all-and-recompile)
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'cider-reload-all)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'cider-user-reload)
 
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") '+default/search-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-F") 'rg-dwim)
