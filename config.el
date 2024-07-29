@@ -88,9 +88,13 @@
 ;; they are implemented.
 
 (package-initialize)
-(add-to-list 'load-path "/Users/penskoi/.local/bin")
+(add-to-list 'load-path "~/.local/bin")
 (add-to-list 'load-path "~/.ghcup/bin")
+(add-to-list 'load-path "~/.config/emacs/bin")
 (add-to-list 'load-path "/opt/homebrew/bin")
+(setenv "PATH" (concat (string-join load-path ":")
+                       ":"
+                       (getenv "PATH")))
 
 (setq! jka-compr-shell "fish")
 
@@ -99,6 +103,7 @@
 
 
 (add-to-list 'default-frame-alist '(undecorated-round . t))
+
 
 ;; Autosave all buffers on focus lost
 (defadvice switch-to-buffer (before save-buffer-now activate)

@@ -147,6 +147,7 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-o") 'consult-recent-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-x C-f") 'ergoemacs-find-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-~") 'run-smerge)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M--") 'cider-format-region)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-`") 'magit-status)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-<escape> M-<escape>") 'run-smerge)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-a") 'eshell)
@@ -154,7 +155,6 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-B") 'ido-switch-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'save-all-and-recompile)
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'cider-user-reload)
 
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") '+default/search-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-F") 'rg-dwim)
@@ -170,6 +170,11 @@
 
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-[") 'paredit-backward-slurp-sexp)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-{") 'paredit-backward-barf-sexp)
+
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'cider-user-reload)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-7") 'cider-eval-last-sexp)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-8") 'cider-pprint-eval-last-sexp)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-9") 'cider-test-run-test)
 
   (defun clean-term-artifacts ()
     "e.g. arrow keys, super mod"
