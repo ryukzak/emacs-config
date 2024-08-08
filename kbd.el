@@ -171,7 +171,7 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-{") 'paredit-backward-barf-sexp)
 
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'cider-user-reload)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-6") 'cider-switch-to-last-clojure-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-6") 'cider-switch-to-repl-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-7") 'cider-eval-last-sexp)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-8") 'cider-pprint-eval-last-sexp)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-9") 'cider-test-run-test)

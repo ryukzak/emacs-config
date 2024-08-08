@@ -34,7 +34,12 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-dracula)
 (setq doom-font (font-spec :family "FiraCode Nerd Font"
-                           :size 11))
+                           :size 12))
+(quote
+ (set-face-attribute 'default nil :height 120)
+ (set-face-attribute 'default nil :height 160)
+ )
+
 (setq all-the-icons-scale-factor 1)
 
 (setq centaur-tabs-height 10)
