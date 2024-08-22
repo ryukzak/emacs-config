@@ -189,7 +189,6 @@
 (defun rk-haskell-mode-hook ()
   (push "[/\\\\]gen/" lsp-file-watch-ignored)
   ;; (setq haskell-process-path-ghci "stack exec -- ghci")
-  (message "rk-haskell-mode-hook")
   (display-fill-column-indicator-mode 't)
   (local-set-key (kbd "M-9") 'recompile)
   (local-set-key (kbd "M-(") 'compile))

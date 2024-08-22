@@ -170,6 +170,9 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-[") 'paredit-backward-slurp-sexp)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-{") 'paredit-backward-barf-sexp)
 
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-]") 'next-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-}") 'previous-buffer)
+
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'cider-user-reload)
 
   ;; (global-unset-key (kbd "<C-mouse-4>") )
