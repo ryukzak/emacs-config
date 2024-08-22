@@ -36,9 +36,8 @@
 (setq doom-font (font-spec :family "FiraCode Nerd Font"
                            :size 12))
 (quote
- (set-face-attribute 'default nil :height 120)
- (set-face-attribute 'default nil :height 160)
- )
+ (list (set-face-attribute 'default nil :height 120)
+       (set-face-attribute 'default nil :height 160)))
 
 (setq all-the-icons-scale-factor 1)
 
@@ -190,13 +189,12 @@
 (defun rk-haskell-mode-hook ()
   (push "[/\\\\]gen/" lsp-file-watch-ignored)
   ;; (setq haskell-process-path-ghci "stack exec -- ghci")
+  (message "rk-haskell-mode-hook")
   (display-fill-column-indicator-mode 't)
-  ;; (enable-paredit-mode)
-  )
+  (local-set-key (kbd "M-9") 'recompile)
+  (local-set-key (kbd "M-(") 'compile))
 
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
-
-
 
 (defun rk-inferior-haskell-mode-hook ()
   (setq compilation-first-column 1)
@@ -243,7 +241,12 @@
     (message "Not connected to a Clojure REPL")))
 
 (defun my-clojure-mode-hook ()
-  (local-set-key (kbd "C-b") 'cider-user-reload))
+  (local-set-key (kbd "C-b") 'cider-user-reload)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-6") 'cider-switch-to-repl-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-7") 'cider-eval-last-sexp)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-8") 'cider-pprint-eval-last-sexp)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-9") 'cider-test-run-test)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M--") 'cider-format-region))
 
 (use-package! clojure-mode
   :config (progn

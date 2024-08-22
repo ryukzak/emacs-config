@@ -151,8 +151,8 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-<escape> M-<escape>") 'run-smerge)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-a") 'eshell)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-b") '+vertico/switch-workspace-buffer)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-B") 'ido-switch-buffer)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'save-all-and-recompile)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'consult-buffer)
+
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
 
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") '+default/search-buffer)
@@ -171,11 +171,6 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-{") 'paredit-backward-barf-sexp)
 
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'cider-user-reload)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-6") 'cider-switch-to-repl-buffer)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-7") 'cider-eval-last-sexp)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-8") 'cider-pprint-eval-last-sexp)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-9") 'cider-test-run-test)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M--") 'cider-format-region)
 
   ;; (global-unset-key (kbd "<C-mouse-4>") )
   ;; (global-unset-key (kbd "<C-mouse-5>"))
