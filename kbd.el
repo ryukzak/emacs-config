@@ -156,8 +156,10 @@
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
 
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") '+default/search-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-S-F") '+default/search-project)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-C-f") '+default/search-project)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-F") 'rg-dwim)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-f") '+default/search-project)
+
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-'") 'comment-line)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M->") 'lsp-find-references)
 

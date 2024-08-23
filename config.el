@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'doom-gruvbox)
 (setq doom-font (font-spec :family "FiraCode Nerd Font"
                            :size 12))
 (quote
@@ -245,7 +245,8 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-7") 'cider-eval-last-sexp)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-8") 'cider-pprint-eval-last-sexp)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-9") 'cider-test-run-test)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M--") 'cider-format-region))
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M--") 'cider-format-defun)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-_") 'cider-format-region))
 
 (use-package! clojure-mode
   :config (progn
@@ -374,9 +375,9 @@
 (add-to-list 'auto-mode-alist '("\\.hurl\\'" . http-mode))
 
 
-(use-package magit-todos
-  :after magit
-  :config (magit-todos-mode 1))
+;; (use-package magit-todos
+;;   :after magit
+;;   :config (magit-todos-mode 1))
 
 (use-package vertico-posframe
   :init (vertico-posframe-mode 1)
