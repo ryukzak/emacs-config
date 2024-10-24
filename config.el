@@ -239,12 +239,18 @@
                                 (cider--nrepl-pr-request-map)))
     (message "Not connected to a Clojure REPL")))
 
+(defun cider-eval-defun-and-run-test-at-point ()
+  (interactive)
+  (cider-eval-defun-up-to-point)
+  (cider-test-run-test))
+
 (defun my-clojure-mode-hook ()
   (local-set-key (kbd "C-b") 'cider-user-reload)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-6") 'cider-switch-to-repl-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-7") 'cider-eval-last-sexp)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-8") 'cider-pprint-eval-last-sexp)
-  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-9") 'cider-test-run-test)
+
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-9") 'cider-eval-defun-and-run-test-at-point)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M--") 'cider-format-defun)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-_") 'cider-format-region))
 
@@ -375,9 +381,9 @@
 (add-to-list 'auto-mode-alist '("\\.hurl\\'" . http-mode))
 
 
-;; (use-package magit-todos
-;;   :after magit
-;;   :config (magit-todos-mode 1))
+(use-package magit-todos
+  :after magit
+  :config (magit-todos-mode 1))
 
 (use-package vertico-posframe
   :init (vertico-posframe-mode 1)

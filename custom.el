@@ -12,7 +12,7 @@
      (cider-default-cljs-repl . shadow)
      (cider-preferred-build-tool . shadow-cljs)))
  '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
- '(package-selected-packages '(treemacs-nerd-icons zprint-format)))
+ '(package-selected-packages '(ttl-mode treemacs-nerd-icons zprint-format)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

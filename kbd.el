@@ -144,6 +144,7 @@
 
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'consult-find)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'projectile-find-file)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-p") 'projectile-find-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-o") 'consult-recent-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-x C-f") 'ergoemacs-find-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-~") 'run-smerge)
