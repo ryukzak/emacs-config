@@ -39,6 +39,8 @@
  (list (set-face-attribute 'default nil :height 120)
        (set-face-attribute 'default nil :height 160)))
 
+(display-fill-column-indicator-mode 't)
+
 (setq all-the-icons-scale-factor 1)
 
 (setq centaur-tabs-height 10)
