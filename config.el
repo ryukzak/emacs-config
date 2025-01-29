@@ -32,9 +32,11 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-gruvbox)
-(setq doom-font (font-spec :family "FiraCode Nerd Font"
-                           :size 12))
+(setq doom-theme 'doom-dark+)
+;; (setq doom-font (font-spec :family "FiraCode Nerd Font"
+;;                            :size 12))
+(setq doom-font (font-spec :family "Anonymous Pro"
+                           :size 14))
 (quote
  (list (set-face-attribute 'default nil :height 120)
        (set-face-attribute 'default nil :height 160)))
@@ -107,6 +109,10 @@
 (load! "misc.el")
 (load! "kbd.el")
 
+
+(add-to-list 'projectile-globally-ignored-directories "^.m2$")
+(add-to-list 'projectile-globally-ignored-directories "^.lsp$")
+(add-to-list 'projectile-globally-ignored-directories "^.shadow-cljs$")
 
 (add-to-list 'default-frame-alist '(undecorated-round . t))
 
@@ -204,6 +210,11 @@
                                                            '((6)
                                                              nil)))
                                              (cdr (cdr inferior-haskell-error-regexp-alist)))))
+
+;; (with-eval-after-load 'lsp-mode
+;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.clj-kondo\\'")
+;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.shadow-cljs\\'")
+;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]node_modules\\'"))
 
 
 ;; (use-package dhall-mode
