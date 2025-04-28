@@ -143,6 +143,13 @@
   (ergoemacs-mode 1)
 
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'consult-find)
+
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "s-p") 'projectile-find-file)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "s-P") 'execute-extended-command)
+
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "s-f") '+default/search-buffer)
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "s-F") '+default/search-project)
+  
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-o") 'projectile-find-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-p") 'projectile-find-file)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-M-o") 'consult-recent-file)

@@ -57,6 +57,8 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
+(global-display-line-numbers-mode)
+
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -203,6 +205,8 @@
 
 (add-hook 'haskell-mode-hook 'rk-haskell-mode-hook)
 
+(setq lsp-file-watch-threshold 500000)
+
 (defun rk-inferior-haskell-mode-hook ()
   (setq compilation-first-column 1)
   (setq compilation-error-regexp-alist (cons `("^\\(.+?\\):\\([0-9]+\\):\\(\\([0-9]+\\):\\)?\\( \\|\n *\\)\\(Warning\\)?"
@@ -258,6 +262,13 @@
   (cider-test-run-test))
 
 (defun my-clojure-mode-hook ()
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].*/node_modules$")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].*/\\.clj-kondo$")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].*/\\.cpcache$")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].*/\\.lsp$")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].*/\\.clj-kondo$")
+
+
   (local-set-key (kbd "C-b") 'cider-user-reload)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-6") 'cider-switch-to-repl-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-7") 'cider-eval-last-sexp)
