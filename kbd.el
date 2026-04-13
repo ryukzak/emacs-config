@@ -161,6 +161,8 @@
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "M-b") '+vertico/switch-workspace-buffer)
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-b") 'consult-buffer)
 
+  (ergoemacs-define-key ergoemacs-user-keymap (kbd "C--") 'xref-go-back)
+
   ;; (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-c b") 'save-all-and-compile)
 
   (ergoemacs-define-key ergoemacs-user-keymap (kbd "C-f") '+default/search-buffer)
